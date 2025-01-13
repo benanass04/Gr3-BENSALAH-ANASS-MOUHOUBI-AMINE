@@ -9,7 +9,7 @@
         <!-- ========== HEADER ============== -->
         <header>
 
-            <a href="home.html">
+            <a href="index.html">
                 <img src="./resources/logo.png" width="50" height="50">
             </a>
 
@@ -28,14 +28,33 @@
                 <form>
                     <label>Nom de l'activité :</label>
                     <input type="text">
+
                     <label>Description :</label>
                     <input type="text">
+
                     <label>Image URL :</label>
                     <input type="text">
+
                     <label>Coach :</label>
                     <input type="text">
+
                     <label>Horaire :</label>
                     <input type="text">
+
+                    <label>Niveau :</label>
+                    <select name="niveauDiff" id="niveauDiff">
+                        <option value="Tous">Tous</option>
+                        <option value="Debutant">Débutant</option>
+                        <option value="Intermediaire">Intérmediaire</option>
+                        <option value="Avance">Avancé</option>
+                    </select>
+                    
+                    <label>Lieu :</label>
+                    <select name="lieu" id="lieu">
+                        <option value="Tous">Tous</option>
+                        <option value="Interieur">Intérieur</option>
+                        <option value="Exterieur">Extérieur</option>
+                    </select>
                 </form>
 
                 <button>Enregistrer</button>

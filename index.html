@@ -6,15 +6,16 @@
         <link rel="stylesheet" href="./resources/css/index.css">
         <title>Centre sportif DN</title>
     </head>
-    <body>
+    <body class="conteneur">
+
         <!-- ========== HEADER ============== -->
-        <header>
+        <header class="header">
 
             <a href="index.html">
-                <img src="./resources/images/logo.png" width="50" height="50">
+                <img class="logo" src="./resources/images/logo.png">
             </a>
 
-            <a href = "liste.html">
+            <a href="liste.html">
                 <button>Activité du complexe sportif</button>
             </a>
 
@@ -26,27 +27,28 @@
         <!-- ========== /HEADER ============== -->
         
         <!-- ========== MAIN ============== -->
-        <main>
+        <main class="main">
 
-            <h3>BIENVENUE AU CENTRE SPORTIF DN</h3>
+            <h2>BIENVENUE AU CENTRE SPORTIF DN</h2>
 
-            <div>
+            <p class="description">
                 Ici, ça bouge, ça transpire, ça s'amuse, et surtout, ça se sent bien ! <br>
-                Venez découvrir nos activités pour rester en forme, améliorer votre santé et repartir <br>
-                avec le plein d'énergie. <br>
-                CENTRE SPORTIF DN, c'est le rendez-vous du bien-être physique et mental.
-            </div>
-            
-            <h4>Nos activités populaires</h4>
+                Venez découvrir nos activités pour rester en forme, améliorer votre santé et repartir avec le plein d'énergie. <br>
+                <strong>CENTRE SPORTIF DN</strong>, c'est le rendez-vous du bien-être physique et mental.
+            </p>
 
-            <div>
-                <img src="./resources/images/football.png" alt="football" width="150" height="150">
-                <img src="./resources/images/basket.png" alt="basket" width="150" height="150">
-                <img src="./resources/images/volley.png" alt="volley" width="150" height="150">
-                <img src="./resources/images/tennis.jpg" alt="tennis" width="150" height="150">
-            </div>
+            <h3>Nos activités populaires</h3>
 
-            <div>
+            <table>
+                <tr>
+                    <td><img src="./resources/images/football.png" alt="football" class="image-sport"></td>
+                    <td><img src="./resources/images/basket.png" alt="basket" class="image-sport"></td>
+                    <td><img src="./resources/images/volley.png" alt="volley" class="image-sport"></td>
+                    <td><img src="./resources/images/tennis.jpg" alt="tennis" class="image-sport"></td>
+                </tr>
+            </table>
+
+            <div class="bouton-plus">
                 <a href="liste.html">
                     <button>Voir toutes les activités</button>
                 </a>
@@ -56,44 +58,48 @@
         <!-- ========== /MAIN ============== -->
         
         <!-- ========== FOOTER ============== -->
-        <footer>
+        <footer class="footer">
 
             <div>
-                <h4>Nous contacter</h4>
-                <p>
-                    Adresse : 123 Rue du Sport, Montréal, QC <br>
-                    Téléphone: (123) 456-7890
-                </p>
-            </div>
 
-            <div>
-                <h4>Proposer un cours chez nous</h4>
-                <p>
-                    Joignez notre équipe et contribuez à inspirer le bien-être à travers vos compétences sportifs
-                </p>
-            </div>
+                <div>
+                    <h4>
+                        Nous contacter
+                    </h4>
+                    <p>
+                        Adresse : 123 Rue du Sport, Montréal, QC <br>
+                        Téléphone: (123) 456-7890
+                    </p>
+                </div>
 
-            <div>
-                <h4>Suivez-nous</h4>
+                <div>
+                    <h4>Proposer un cours</h4>
+                    <p>
+                        Joignez notre équipe et contribuez à inspirer le bien-être à travers cos compétences sportifs
+                    </p>
+                </div>
 
-                <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
-                    <img src="./resources/images/facebook.png" width="50" height="50">
-                </a>
+                <div>
+                    <h4>Suivez-nous</h4>
+                    <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
+                        <img class="lien-footer" src="./resources/images/facebook.png" >
+                    </a>
+            
+                    <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
+                       <img class="lien-footer" src="./resources/images/instagram.png">
+                    </a>
     
-                <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
-                    <img src="./resources/images/instagram.png" width="50" height="50">
-                </a>
-    
-                <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
-                    <img src="./resources/images/youtube.png" width="50" height="50">
-                </a>
+                    <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
+                        <img class="lien-footer" src="./resources/images/youtube.png">
+                    </a>
+                </div>
 
             </div>
 
             <p>
                 © Le Centre Sportif DN, tous droits réservés.
             </p>
-            
+
         </footer>
         <!-- ========== /FOOTER ============== -->
     </body>

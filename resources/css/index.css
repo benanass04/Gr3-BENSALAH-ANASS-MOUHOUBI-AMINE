@@ -82,21 +82,19 @@ main div.container {
 
 main div.container p {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for centering */
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin: 0;
-    color: white; /* Ensure text is readable */
-    background: rgba(0, 0, 0, 0.5); /* Optional: Add semi-transparent background */
-    padding: 0.5rem; /* Add padding for better readability */
-    border-radius: 5px; /* Rounded corners for aesthetic */
-    opacity: 0; /* Start invisible */
-    transition: opacity 0.25s ease-in-out; /* Smooth fade-in effect */
-    pointer-events: none; /* Prevent text from being interactable */
+    color: white; 
+    padding: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out; 
+    pointer-events: none; 
 }
 
 main div.container .image-sport:hover + p {
-    opacity: 1; /* Make the text visible on hover */
+    opacity: 1;
 }
 
 

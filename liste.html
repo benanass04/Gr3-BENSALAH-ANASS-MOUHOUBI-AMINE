@@ -9,28 +9,28 @@
     <body>
         
         <!-- ========== HEADER ============== -->
-        <header>
+        <header class="header">
 
             <a href="index.html">
-                <img src="./resources/images/logo.png" width="50" height="50">
+                <img class="logo" src="./resources/images/logo.png">
             </a>
 
             <a href = "modifOuAjout.html">
-                    <button> Ajouter ou retirer des activité du complexe sportif</button>
+                <button> Ajouter ou retirer des activité du complexe sportif</button>
             </a>
 
         </header>
         <!-- ========== /HEADER ============== -->
 
-        <!-- ========== MAIN ============== -->
-        <main>
+        <!-- ========== FILTREUR ============== -->
+        <header class="filter">
 
-            <header>
+            <h3>Filtrer les activités</h3>
 
-                <h3>Filtrer les activités</h3>
+            <div>
 
                 <div>
-                    Niveau :
+                    <label>Niveau :&nbsp;</label>
                     <select name="niveauDiff" id="niveauDiff">
                         <option value="Tous">Tous</option>
                         <option value="Debutant">Débutant</option>
@@ -38,18 +38,18 @@
                         <option value="Avance">Avancé</option>
                     </select>
                 </div>
-
+    
                 <div>
-                    Lieu :
+                    <label>Lieu :&nbsp;</label>
                     <select name="lieu" id="lieu">
                         <option value="Tous">Tous</option>
                         <option value="Interieur">Intérieur</option>
                         <option value="Exterieur">Extérieur</option>
                     </select>
                 </div>
-
+    
                 <div>
-                    Entraîneur :
+                    <label>Entraîneur :&nbsp;</label>
                     <select name="niveauDiff" id="niveauDiff">
                         <option value="Tous">Tous</option>
                         <option value="Martin">Martin</option>
@@ -57,13 +57,13 @@
                         <option value="Pierre">Pierre</option>
                     </select>
                 </div>
-
-                <p>
-                    Horaire:
-                </p>
+    
+                <div>
+                    <strong>Horaire :&nbsp;</strong>
+                </div>
                 
                 <div>
-                    Jour :
+                    <label>Jour :&nbsp;</label>
                     <select name="niveauDiff" id="niveauDiff">
                         <option value="Tous">Tous</option>
                         <option value="Lundi">Lundi</option>
@@ -75,94 +75,155 @@
                         <option value="Dimanche">Dimanche</option>
                     </select>
                 </div>
-
+    
                 <div>
-                    <form>
-                        <label>Heure :</label>
-                        <input type="text">
-                        <label>Durée :</label>
-                        <input type="text">
-                    </form>
+                    <label>Heure :&nbsp;</label>
+                    <input type="text">
                 </div>
-
+                <div>
+                    <label>Durée :&nbsp;</label>
+                    <input type="text">
+                </div>
+    
                 <button>Appliquer</button>
 
-            </header>
+            </div>
 
-            <div> <!-- LISTE -->
+            
+
+        </header>
+        <!-- ========== /FILTREUR ============== -->
+        
+
+        <!-- ========== MAIN ============== -->
+        <main class="main">
+
+
+            <div class="liste"> <!-- LISTE -->
 
                 <div> <!-- BASKETBALL -->
 
-                    <img src="./resources/images/basket.png" alt="basket" width="100" height="100">
-                    <h3>Basketball</h3>
-                    <p>
-                        Basketball libre
-                    </p>
-                    Horaire : dimanche <br>
-                    Niveau : Tous niveaux <br>
-                    Responsable : Martin <br>
-                    Lieu : 
-                    <img src="resources/images/interieur.png" alt="interieur" width="25" height="25">
+                    <img class="image-sport" src="./resources/images/basket.png" alt="basket">
+                    <div class="description">
+                        <h3>Basketball</h3>
+                        <p>
+                            Basketball libre
+                        </p>
+                        <p>Horaire : dimanche</p>
+                        <p>Niveau : Tous niveaux</p>
+                        <p>Responsable : Martin</p>
+                        <p>
+                            Lieu : 
+                            <img src="resources/images/interieur.png" alt="interieur">
+                        </p>
+                    </div>
+                    
+                    <a href="modifOuAjout.html">
+                        <button class="modifier">
+                            Modifier l'activité
+                        </button>
+                    </a>
 
                 </div>
 
                 <div> <!-- FOOTBALL -->
 
-                    <img src="./resources/images/football.png" alt="football" width="100" height="100">
-                    <h3>Football</h3>
-                    <p>
-                        Foot libre
-                    </p>
-                    Horaire : samedi <br>
-                    Niveau : Tous niveaux <br>
-                    Responsable : Martin <br>
-                    Lieu : 
-                    <img src="resources/images/exterieur.png" alt="exterieur" width="25" height="25">
+                    <img class="image-sport" src="./resources/images/football.png" alt="football">
+                    <div class="description">
+                        <h3>Football</h3>
+                        <p>
+                            Foot libre
+                        </p>
+                        <p>Horaire : samedi </p>
+                        <p>Niveau : Tous niveaux</p>
+                        <p>Responsable : Martin</p>
+                        <p>
+                            Lieu : 
+                            <img src="resources/images/exterieur.png" alt="exterieur">
+                        </p>
+                    </div>
+                    
+                    <a href="modifOuAjout.html">
+                        <button class="modifier">
+                            Modifier l'activité
+                        </button>
+                    </a>
 
                 </div>
 
                 <div> <!-- NATATION -->
 
-                    <img src="./resources/images/natation.png" alt="natation" width="100" height="100">
-                    <h3>Natation</h3>
-                    <p>
-                        Nage libre (ne te noie pas stp)
-                    </p>
-                    Horaire : Lundi, Mercredi, Vendredi <br>
-                    Niveau : Tous niveaux <br>
-                    Responsable : Simone <br>
-                    Lieu : 
-                    <img src="resources/images/interieur.png" alt="interieur" width="25" height="25">
+                    <img class="image-sport" src="./resources/images/natation.png" alt="natation">
+                    <div class="description">
+                        <h3>Natation</h3>
+                        <p>
+                            Nage libre (ne te noie pas stp)
+                        </p>
+                        <p>Horaire : Lundi, Mercredi, Vendredi</p>
+                        <p>Niveau : Tous niveaux</p>
+                        <p>Responsable : Simone</p>
+                        <p>
+                            Lieu : 
+                            <img src="resources/images/interieur.png" alt="interieur">
+                        </p>
+                    </div>
+                    
+                    <a href="modifOuAjout.html">
+                        <button class="modifier">
+                            Modifier l'activité
+                        </button>
+                    </a>
 
                 </div>
 
                 <div> <!-- TENNIS -->
 
-                    <img src="./resources/images/tennis.jpg" alt="tennis" width="100" height="100">
-                    <h3>Tennis</h3>
-                    <p>
-                        Tennis libre 
-                    </p>
-                    Horaire : Mardi, Jeudi <br>
-                    Niveau : Tous niveaux <br>
-                    Responsable : Simone <br>
-                    Lieu : 
-                    <img src="resources/images/interieur.png" alt="interieur" width="25" height="25">
+                    <img class="image-sport" src="./resources/images/tennis.jpg" alt="tennis">
+                    <div class="description">
+                        <h3>Tennis</h3>
+                        <p>
+                            Tennis libre 
+                        </p>
+                        <p>Horaire : Mardi, Jeudi</p>
+                        <p>Niveau : Tous niveaux</p>
+                        <p>Responsable : Simone</p>
+                        <p>
+                            Lieu : 
+                            <img src="resources/images/interieur.png" alt="interieur">
+                        </p>
+                    </div>
+                    
+                    <a href="modifOuAjout.html">
+                        <button class="modifier">
+                            Modifier l'activité
+                        </button>
+                    </a>
 
                 </div>
 
                 <div> <!-- VOLLEY -->
 
-                    <img src="./resources/images/volley.png" alt="volley" width="100" height="100">
-                    <h3>Volleyball</h3>
-                    <p>
-                        Volleyball libre
-                    </p>
-                    Horaire : Lundi, Mercredi, Vendredi <br>
-                    Niveau : Tous niveaux <br>
-                    Responsable : Pierre <br>
-                    Lieu : 
-                    <img src="resources/images/interieur.png" alt="interieur" width="25" height="25">
+                    <img class="image-sport" src="./resources/images/volley.png" alt="volley">
+                    <div class="description">
+                        <h3>Volleyball</h3>
+                        <p>
+                            Volleyball libre
+                        </p>
+                        <p>Horaire : Lundi, Mercredi, Vendredi</p>
+                        <p>Niveau : Tous niveaux</p>
+                        <p>Responsable : Pierre</p>
+                        <p>
+                            Lieu : 
+                            <img src="resources/images/interieur.png" alt="interieur">
+                        </p>
+                    </div>
+                    
+                    <a href="modifOuAjout.html">
+                        <button class="modifier">
+                            Modifier l'activité
+                        </button>
+                    </a>
+                    
 
                 </div>
 
@@ -172,37 +233,41 @@
         <!-- ========== /MAIN ============== -->
 
         <!-- ========== FOOTER ============== -->
-        <footer>
+        <footer class="footer">
 
             <div>
-                <h4>Nous contacter</h4>
-                <p>
-                    Adresse : 123 Rue du Sport, Montréal, QC <br>
-                    Téléphone: (123) 456-7890
-                </p>
-            </div>
 
-            <div>
-                <h4>Proposer un cours chez nous</h4>
-                <p>
-                    Joignez notre équipe et contribuez à inspirer le bien-être à travers vos compétences sportifs
-                </p>
-            </div>
+                <div>
+                    <h4>
+                        Nous contacter
+                    </h4>
+                    <p>
+                        Adresse : 123 Rue du Sport, Montréal, QC <br>
+                        Téléphone: (123) 456-7890
+                    </p>
+                </div>
 
-            <div>
-                <h4>Suivez-nous</h4>
+                <div>
+                    <h4>Proposer un cours</h4>
+                    <p>
+                        Joignez notre équipe et contribuez à inspirer le bien-être à travers cos compétences sportifs
+                    </p>
+                </div>
 
-                <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
-                    <img src="./resources/images/facebook.png" width="50" height="50">
-                </a>
+                <div>
+                    <h4>Suivez-nous</h4>
+                    <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
+                        <img class="lien-footer" src="./resources/images/facebook.png" >
+                    </a>
+            
+                    <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
+                       <img class="lien-footer" src="./resources/images/instagram.png">
+                    </a>
     
-                <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
-                    <img src="./resources/images/instagram.png" width="50" height="50">
-                </a>
-    
-                <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
-                    <img src="./resources/images/youtube.png" width="50" height="50">
-                </a>
+                    <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
+                        <img class="lien-footer" src="./resources/images/youtube.png">
+                    </a>
+                </div>
 
             </div>
 

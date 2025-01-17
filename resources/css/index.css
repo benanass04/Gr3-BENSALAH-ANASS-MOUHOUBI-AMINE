@@ -89,7 +89,7 @@ main div.container p {
     color: white; 
     padding: 0.5rem;
     opacity: 0;
-    transition: opacity 0.25s ease-in-out; 
+    transition: 0.25s ease-in-out; 
     pointer-events: none; 
 }
 
@@ -117,7 +117,7 @@ main button{
     padding-right: 1rem;
     border-radius: 10px;
     color: aliceblue;
-    transition: 0.25s;
+    transition: 0.25s ease-in-out;
 }
 
 main button:hover{
@@ -125,7 +125,6 @@ main button:hover{
     border: 0.175rem #5A8CA7 solid;
     color: #5A8CA7;
     transform: translate(0, -0.2rem);
-    transition: 0.25s;
 }
 
 .footer > div{

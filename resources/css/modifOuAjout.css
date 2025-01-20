@@ -46,10 +46,9 @@ button:hover{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
-    column-gap: 50px;
 }
 
 .div-logo{
@@ -61,7 +60,7 @@ button:hover{
     display: flex;
     justify-content: right;
     align-items: center;
-    column-gap: 7vw;  
+    column-gap: 2vw;  
 }
 
 .header p{
@@ -188,4 +187,60 @@ button:hover{
     border-radius: 10px;
     font-weight: bold;
     transition: 0.25s ease-in-out;
+}
+
+/* ===== TABLETTE ===== */
+@media screen and (max-width: 1300px) {
+    *{
+        font-size: 14px;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-between;
+    }
+
+    .div-logo {
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .header p {
+        width: auto;
+    }
+}
+
+/* ===== TELEPHONE ===== */
+@media screen and (max-width:600px){
+
+    /* Footer */ 
+    .footer > div{
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+    }
+
+    .footer > p{
+        align-self: center;
+        text-align: center;
+    }
+
+    .lien-footer{
+        height: 25px;
+        width: 25px;
+    }
+    
 }

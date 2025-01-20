@@ -15,6 +15,9 @@ button:hover{
     cursor: pointer;
 }
 
+
+
+
 .container{
     display: grid;
     width: 100vw;
@@ -46,10 +49,9 @@ button:hover{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
-    column-gap: 50px;
 }
 
 .div-logo{
@@ -61,7 +63,7 @@ button:hover{
     display: flex;
     justify-content: right;
     align-items: center;
-    column-gap: 7vw;  
+    column-gap: 2vw;  
 }
 
 .header p{
@@ -119,8 +121,6 @@ h2{
     font-weight: bold;
 }
 
-main
-
 main p.description strong{
     color: #1B3B5F;
 }
@@ -140,7 +140,6 @@ main p.description strong{
 
 main div.grid-container{
     display: flex;
-    width: 100%;
     text-align: center;
     justify-content: center;
 }
@@ -168,9 +167,7 @@ main div.container .image-sport:hover + p {
     opacity: 1;
 }
 
-
-
-.main div.bouton-plus{
+main div.bouton-plus{
     font-weight: bold;
     margin-top: 2rem;
     width: 100%;
@@ -212,4 +209,101 @@ main button:hover{
 .lien-footer{
     height: 25px;
     width: 25px;
+}
+
+/* ===== TABLETTE ===== */
+@media screen and (max-width: 1300px) {
+    *{
+        font-size: 14px;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-between;
+    }
+
+    .div-logo {
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .header p {
+        width: auto;
+    }
+
+    /* MAIN */
+    main .grid-container {
+        gap: 1rem;
+        justify-items: center;
+        align-items: center;
+    }
+
+    main .container {
+        width: 100%;
+    }
+
+    main .image-sport {
+        width: 100%; 
+        height: auto; 
+    }
+
+    main div.container p {
+        font-weight:lighter;
+        font-size: small;
+        width: 80%;
+        padding: 0.5rem;
+        opacity: 0;
+        transition: 0.25s ease-in-out;
+        pointer-events: none;
+        text-align: center;
+    }
+}
+
+/* ===== TELEPHONE ===== */
+@media screen and (max-width:600px){
+
+    /* MAIN */
+    main div.grid-container{
+        flex-direction: column;
+    }
+
+    main div.container{
+        width: 60vw;
+    }
+
+    main div.container p{
+        font-weight: bold;
+        font-size: large;
+    }
+
+    /* Footer */ 
+    .footer > div{
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+    }
+
+    .footer > p{
+        align-self: center;
+        text-align: center;
+    }
+
+    .lien-footer{
+        height: 25px;
+        width: 25px;
+    }
+    
 }

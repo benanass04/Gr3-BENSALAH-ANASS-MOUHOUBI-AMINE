@@ -46,10 +46,9 @@ button:hover{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
-    column-gap: 50px;
 }
 
 .div-logo{
@@ -61,7 +60,7 @@ button:hover{
     display: flex;
     justify-content: right;
     align-items: center;
-    column-gap: 7vw;  
+    column-gap: 2vw;  
 }
 
 .header p{
@@ -80,7 +79,6 @@ button:hover{
     background-color: rgba(0, 0, 0, 0.5);
     transform: translate(0, -0.1rem);
 }
-
 /* Main */
 .main{
     grid-area: main;
@@ -117,6 +115,8 @@ button:hover{
 
 /* Filtreur */
 .filter{
+    position: sticky;
+    top: 0;
     background-color: rgb(228, 253, 253);
     padding: 2.5%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -138,6 +138,14 @@ button:hover{
     color: white;
     border: none;
     border-radius: 5px;
+    transition: 0.25s ease-in-out;
+}
+
+.filter button:hover{
+    background-color: white;
+    color: rgb(0,167,205);
+    border: 1px solid rgb(0,167,205);
+    transform: translate(0, -0.1rem);
 }
 
 /* La liste des sports */
@@ -194,7 +202,7 @@ div.liste > div a{
 button.modifier{
     padding: 5%;
     width: 100%;
-    height: 2rem;
+    height: auto;
     transition: 0.25s ease-in-out;
     border: none;
     border-radius: 5px;
@@ -211,6 +219,28 @@ button.modifier:hover{
 }
 
 
+/* Bouton "Ajouter" en bas de la liste */
+button.ajouter{
+    padding: 1%;
+    width: auto;
+    height: auto;
+    margin-bottom: 2rem;
+    border: none;
+    transition: 0.25s ease-in-out;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(0,167,205);
+    color: white;
+    transition: 0.25s ease-in-out;
+}
+
+button.ajouter:hover{
+    border: 1px solid rgb(0,167,205);
+    background-color: white;
+    color: rgb(0,167,205);
+    transform: translate(0, -0.1rem);
+}
+
 
 /* Les images des activités */
 .image-sport{
@@ -225,4 +255,70 @@ button.modifier:hover{
 img[alt="interieur"], img[alt="exterieur"]{
     width: 25px;
     height: 25px;
+}
+
+/* ===== TABLETTE ===== */
+@media screen and (max-width: 1300px) {
+    *{
+        font-size: 14px;
+    }
+
+    /* HEADER */
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        justify-content: space-between;
+    }
+
+    .div-logo {
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .header p {
+        width: auto;
+    }
+
+    /* FILTRE */
+    .filter div{
+        flex-wrap: wrap;
+        row-gap: 1rem;
+    }
+    
+    
+}
+
+/* ===== TELEPHONE ===== */
+@media screen and (max-width:600px){
+
+    /* MAIN */
+
+    /* Footer */ 
+    .footer > div{
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+    }
+
+    .footer > p{
+        align-self: center;
+        text-align: center;
+    }
+
+    .lien-footer{
+        height: 25px;
+        width: 25px;
+    }
+    
 }

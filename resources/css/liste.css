@@ -109,7 +109,16 @@ button:hover{
 .lien-footer{
     height: 25px;
     width: 25px;
+    border-radius: 50%;
+    transition: 0.25s ease-in-out;
 }
+
+.lien-footer:hover{
+    height: 30px;
+    width: 30px;
+    transform: rotate(1turn);
+}
+
 
 /* ===== Ce qui se trouve dans le main ===== */
 

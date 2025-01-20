@@ -1,0 +1,191 @@
+/* Forme du site */
+*{
+    font-family: sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+body{
+    margin:0;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.container{
+    display: grid;
+    width: 100vw;
+    grid-area: 
+        "header"
+        "main"
+        "footer"
+}
+
+/* Logo */
+.logo{
+    grid-area: logo;
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    justify-self: left;
+    transition: 1s ease-in-out;
+}
+
+.logo:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: rotate(1turn);
+}
+
+/* Header */
+.header{
+    grid-area: header;
+    background: linear-gradient(120deg, rgb(0,167,205) 0%, rgb(0,54,67) 50%);
+    padding: 1%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "logo   nav";
+    align-items: center;
+    column-gap: 50px;
+}
+
+.div-logo{
+    border-right: 1px solid white;
+}
+
+.header nav{
+    grid-area: nav;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    column-gap: 7vw;  
+}
+
+.header p{
+    color: white;
+    text-align: center;
+    align-content: center;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    height: 4rem;
+    width: 9vw;
+    border-radius: 10px;
+    transition: 0.25s ease-in-out;
+}
+
+.header p:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: translate(0, -0.1rem);
+}
+
+/* Main */
+.main{
+    grid-area: main;
+    background-color: rgb(228, 253, 253)  ;
+    padding: 2.5rem;
+}
+
+/* Footer */
+.footer{
+    grid-area: footer;
+    background: linear-gradient(228deg, rgb(2,0,36) 0%, rgb(0,93,115) 100%);
+    color: white;
+    padding: 0.1rem;
+}
+
+.footer > div{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.footer > p{
+    text-align: center;
+}
+
+.lien-footer{
+    height: 25px;
+    width: 25px;
+}
+
+/* ===== Ce qui se trouve dans le main ===== */
+
+.container{
+    background-color: white;
+    border-radius: 25px;
+    padding: 2rem;
+    width: 50vw;
+    justify-self: center;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.containter h2{
+    margin-top: 0px;
+    text-align: center;
+}
+
+.formulaire{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    color: rgb(0,54,67);
+    font-weight: bold;
+}
+
+.formulaire input{
+    border: 1px solid rgb(0,54,67);
+    color: rgb(0,93,115);
+    border-radius: 5px;
+    height: 1.5rem;
+}
+
+.formulaire input:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+    color: rgb(0,167,205);
+}
+
+.formulaire textarea{
+    border: 1px solid rgb(0,54,67);
+    color: rgb(0,93,115);
+    border-radius: 5px;
+    height: 3rem;
+    max-width: 100%;
+}
+
+.formulaire textarea:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+}
+
+.formulaire select{
+    border: 1px solid rgb(0,54,67);
+    border-radius: 5px;
+    height: 1.75rem;
+    color: rgb(0,93,115);
+}
+
+.formulaire select:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+}
+
+.main div button{
+    margin-top: 1rem;
+    align-self: center;
+    height: 2.5rem;
+    width: 30%;
+    border: none;
+    background-color: rgb(0,167,205);
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.25s ease-in-out;
+}

@@ -9,30 +9,49 @@
     <body>
         
         <!-- ========== HEADER ============== -->
-        <header>
+        <header class="header">
 
-            <a href="index.html">
-                <img src="./resources/images/logo.png" width="50" height="50">
-            </a>
+            <div class="div-logo">
+                <a href="index.html">
+                    <img class="logo" src="./resources/images/logo.png">
+                </a>
+            </div>
+            
 
-            <a href = "liste.html">
-                <button>Activité du complexe sportif</button>
-            </a>
+            <nav>
+                <div>
+                    <a href="index.html">
+                        <p>MENU</p>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="liste.html">
+                        <p>TOUS NOS ACTIVITÉ</p>
+                    </a>
+                </div>
+
+                <div>
+                    <a href = "modifOuAjout.html">
+                        <p>AJOUTER UNE ACTIVITÉ</p>
+                    </a>
+                </div>
+            </nav>
 
         </header>
         <!-- ========== /HEADER ============== -->
 
         <!-- ========== MAIN ============== -->
-        <main>
+        <main class="main">
 
-            <div>
+            <div class="container">
                 <h2>Modification de l'activité</h2>
-                <form>
+                <form class="formulaire">
                     <label>Nom de l'activité :</label>
                     <input type="text">
 
                     <label>Description :</label>
-                    <input type="text">
+                    <textarea type="text"></textarea>
 
                     <label>Image URL :</label>
                     <input type="text">
@@ -65,37 +84,41 @@
         <!-- ========== /MAIN ============== -->
 
         <!-- ========== FOOTER ============== -->
-        <footer>
+        <footer class="footer">
 
             <div>
-                <h4>Nous contacter</h4>
-                <p>
-                    Adresse : 123 Rue du Sport, Montréal, QC <br>
-                    Téléphone: (123) 456-7890
-                </p>
-            </div>
 
-            <div>
-                <h4>Proposer un cours chez nous</h4>
-                <p>
-                    Joignez notre équipe et contribuez à inspirer le bien-être à travers vos compétences sportifs
-                </p>
-            </div>
+                <div>
+                    <h4>
+                        Nous contacter
+                    </h4>
+                    <p>
+                        Adresse : 123 Rue du Sport, Montréal, QC <br>
+                        Téléphone: (123) 456-7890
+                    </p>
+                </div>
 
-            <div>
-                <h4>Suivez-nous</h4>
+                <div>
+                    <h4>Proposer un cours</h4>
+                    <p>
+                        Joignez notre équipe et contribuez à inspirer le bien-être à travers cos compétences sportifs
+                    </p>
+                </div>
 
-                <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
-                    <img src="./resources/images/facebook.png" width="50" height="50">
-                </a>
+                <div>
+                    <h4>Suivez-nous</h4>
+                    <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
+                        <img class="lien-footer" src="./resources/images/facebook.png" >
+                    </a>
+            
+                    <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
+                       <img class="lien-footer" src="./resources/images/instagram.png">
+                    </a>
     
-                <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
-                    <img src="./resources/images/instagram.png" width="50" height="50">
-                </a>
-    
-                <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
-                    <img src="./resources/images/youtube.png" width="50" height="50">
-                </a>
+                    <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
+                        <img class="lien-footer" src="./resources/images/youtube.png">
+                    </a>
+                </div>
 
             </div>
 

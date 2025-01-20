@@ -1,3 +1,4 @@
+/* Forme du site */
 *{
     font-family: sans-serif;
 }
@@ -8,6 +9,10 @@ a{
 
 body{
     margin:0;
+}
+
+button:hover{
+    cursor: pointer;
 }
 
 .container{
@@ -21,18 +26,62 @@ body{
 
 /* Logo */
 .logo{
+    grid-area: logo;
     width: 100px;
     height: 100px;
     border-radius: 50px;
-
+    justify-self: left;
+    transition: 1s ease-in-out;
 }
 
+.logo:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: rotate(1turn);
+}
+
+/* Header */
 .header{
     grid-area: header;
     background: linear-gradient(120deg, rgb(0,167,205) 0%, rgb(0,54,67) 50%);
     padding: 1%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "logo   nav";
+    align-items: center;
+    column-gap: 50px;
 }
 
+.div-logo{
+    border-right: 1px solid white;
+}
+
+.header nav{
+    grid-area: nav;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    column-gap: 7vw;  
+}
+
+.header p{
+    color: white;
+    text-align: center;
+    align-content: center;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    height: 4rem;
+    width: 9vw;
+    border-radius: 10px;
+    transition: 0.25s ease-in-out;
+}
+
+.header p:hover{
+    background-color: rgba(0, 0, 0, 0.5);
+    transform: translate(0, -0.1rem);
+}
+
+/* Main */
 .main{
     grid-area: main;
     background-color: linear-gradient(black 0%, rgb(245, 250, 255) 1%)  ;
@@ -40,6 +89,7 @@ body{
     padding-right: 2.5%;
 }
 
+/* Footer */
 .footer{
     grid-area: footer;
     background: linear-gradient(228deg, rgb(2,0,36) 0%, rgb(0,93,115) 100%);
@@ -63,6 +113,8 @@ body{
     width: 25px;
 }
 
+/* ===== Ce qui se trouve dans le main ===== */
+
 /* Filtreur */
 .filter{
     background-color: rgb(228, 253, 253);
@@ -79,6 +131,13 @@ body{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.filter button{
+    background-color: rgb(0,167,205);
+    color: white;
+    border: none;
+    border-radius: 5px;
 }
 
 /* La liste des sports */
@@ -109,12 +168,17 @@ div.liste > div{
 /* Titre de chaque bloc */
 div.liste > div h3{
     margin: 0;
+    color: rgb(0, 132, 165);
 }
 
 /* Description de chaque bloc-sport */
 div.liste > div div.description{
     height: 100%;
     grid-area: desc;
+}
+
+div.liste > div div.description strong{
+    color: rgb(0, 132, 165);
 }
 
 /* Lien vers modifOuAjout.html "Modifier" */

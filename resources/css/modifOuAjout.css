@@ -236,6 +236,7 @@ button:hover{
     .header p {
         width: auto;
     }
+    
 }
 
 /* ===== TELEPHONE ===== */
@@ -253,9 +254,4 @@ button:hover{
         text-align: center;
     }
 
-    .lien-footer{
-        height: 25px;
-        width: 25px;
-    }
-    
 }

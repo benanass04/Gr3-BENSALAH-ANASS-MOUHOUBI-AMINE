@@ -125,15 +125,17 @@ button:hover{
 
 /* ===== Ce qui se trouve dans le main ===== */
 
+/* Titre et description */
 h2{
     margin-top: 0px;
     font-weight: bold;
 }
 
-main p.description strong{
+.description strong{
     color: #1B3B5F;
 }
 
+/* Toutes les images des activités */
 .image-sport{
     height: 20rem;
     width: 20rem;
@@ -147,18 +149,20 @@ main p.description strong{
     transition: 0.25s;
 }
 
-main div.grid-container{
+/* Grille qui contien les 4 activités */
+.grid-container{
     display: flex;
     text-align: center;
     justify-content: center;
 }
 
-main div.container {
+/* Chaque bloc */
+.container {
     position: relative;
     display: block;
 }
 
-main div.container p {
+.container p {
     font-size: x-large;
     position: absolute;
     top: 50%; 
@@ -172,11 +176,12 @@ main div.container p {
     pointer-events: none; 
 }
 
-main div.container .image-sport:hover + p {
+.container .image-sport:hover + p {
     opacity: 1;
 }
 
-main div.bouton-plus{
+/* Bouton pour voir tous les activités */
+.bouton-plus{
     font-weight: bold;
     margin-top: 2rem;
     width: 100%;
@@ -199,7 +204,7 @@ main button{
 
 main button:hover{
     background-color: white;
-    border: 0.175rem #5A8CA7 solid;
+    border: 0.175rem rgb(0,167,205) solid;
     color: #5A8CA7;
     transform: translate(0, -0.2rem);
 }
@@ -264,7 +269,7 @@ main button:hover{
         height: auto; 
     }
 
-    main div.container p {
+    main .container p {
         font-weight:lighter;
         font-size: small;
         width: 80%;
@@ -280,15 +285,15 @@ main button:hover{
 @media screen and (max-width:600px){
 
     /* MAIN */
-    main div.grid-container{
+    main .grid-container{
         flex-direction: column;
     }
 
-    main div.container{
+    main .container{
         width: 60vw;
     }
 
-    main div.container p{
+    main .container p{
         font-weight: bold;
         font-size: large;
     }
@@ -303,11 +308,6 @@ main button:hover{
     .footer > p{
         align-self: center;
         text-align: center;
-    }
-
-    .lien-footer{
-        height: 25px;
-        width: 25px;
     }
     
 }

@@ -9,7 +9,7 @@ const activities = [
         coach: "Martin",
         schedule_day: "Samedi",
         schedule_time: "15h-18h",
-        location: "Tous",
+        location: "Extérieur",
     },
     {
         id: 2,
@@ -61,14 +61,64 @@ document.addEventListener("DOMContentLoaded", init);
 
 function init() {
     const pageLink = window.location.pathname;
+    const queryLink = window.location.search;
+
+    // Liens header
+    const logo = document.querySelector('.div-logo');
+    logo.addEventListener("click", () => {
+        window.location.href = 'index.html';
+    })
+    
+    const boutonMenu = document.querySelector('.menu-bouton');
+    boutonMenu.addEventListener("click", () => {
+        window.location.href = 'index.html';
+    });
+
+    const boutonListe = document.querySelector('.liste-bouton');
+    boutonListe.addEventListener("click", () => {
+        window.location.href = 'liste.html';
+    });
+
+    const boutonAjout = document.querySelector('.ajout-bouton');
+    boutonAjout.addEventListener("click", () => {
+        window.location.href = 'modifOuAjout.html';
+    });
+
+    // Liens footer (externe)
+    const insta = document.querySelector('.instagram');
+    insta.addEventListener("click", () => {
+        window.open("https://instagram.com/champagnepapi/", "_blank");
+    })
+
+    const facebook = document.querySelector('.facebook');
+    facebook.addEventListener("click", () => {
+        window.open("https://facebook.com", "_blank");
+    })
+    
+    const youtube = document.querySelector('.youtube');
+    youtube.addEventListener("click", () => {
+        window.open("https://youtube.com", "_blank");
+    })
 
     // Pour l'index
     if (pageLink.endsWith("index.html")) {
+        //Liens       
+        const boutonTousNosActivites = document.querySelector('.bouton-plus');
+        boutonTousNosActivites.addEventListener("click", () => {
+            window.location.href = 'liste.html';
+        });
+
         displayPopularActivities();
     }
 
     // Pour la liste
-    if (pageLink.endsWith("liste.html")){
+    else if (pageLink.endsWith("liste.html")){
+        // Liens
+        const boutonAjouterActivite = document.querySelector('.ajouter');
+        boutonAjouterActivite.addEventListener("click", () => {
+            window.location.href = 'modifOuAjout.html';
+        })
+
         populateFilters();
 
         //Mettre par defaut (tous)
@@ -81,8 +131,36 @@ function init() {
             const filtresChoisis = sauvegardeFiltre();
             displayFilteredActivities(filtresChoisis);
         });
+
+        // Lorsque le bouton modifier est cliquer, il va envoyer les informations dans modifOuAjout.html (ex: modifOuAjout.html?id=5)
+        // trouver l'id de l'activite cliquer
     }
 
+    // Pour modifOuAjout
+    else if (queryLink.includes("?")){
+        console.log("test");
+
+        const params = new URLSearchParams(window.location.search);
+        const activiteID = parseInt(params.get("id"));
+
+        let activite;
+
+        // Trouver l'activite
+        for(let i = 0; i < activities.length; i++){
+            if(activities[i].id === activiteID){
+                activite = activities[i];
+                break;
+            }
+        }
+        
+        if (activite) {
+            populateForm(activite);
+        } else {
+            console.error("Activité non trouvée !");
+        }
+
+        populateForm(activite);
+    }
 }
 
 // Sauvegarder les choix des filtres
@@ -99,6 +177,11 @@ function sauvegardeFiltre(){
     console.log(tabFiltre);
 
     return tabFiltre;
+}
+
+// Retourne l'id de l'activite ou le bouton modifier a ete cliquer
+function retourneID(){
+    
 }
 
 // affiche les activités populaires pour la page d'accueil
@@ -276,17 +359,48 @@ function displayFilteredActivities(filters) {
         boutonModifer.classList.add("modifier");
         boutonModifer.textContent = "Modifier l'activité";
 
-        let aLink = document.createElement('a');
-        aLink.setAttribute('href', "modifOuAjout.html");
-        aLink.append(boutonModifer);
+        boutonModifer.setAttribute('data-id', activiteFiltrer[i].id);
 
-        tableauSport[i].append(aLink);
+        // Lorsque cliquer
+        boutonModifer.addEventListener('click', () => {
+            const activiteID = boutonModifer.getAttribute('data-id');
+
+            window.location.href = 'modifOuAjout.html?id='+activiteID;
+        })
+
+        tableauSport[i].append(boutonModifer);
     }
 
 }
 
-
+// Remplir le formulaire de modifOuAjout
 function populateForm(activity) {
-   
-}
+    // Titre
+    let inputNom = document.querySelector('.nomActivite');
+    inputNom.value = activity.name;
 
+    // Desc
+    let inputDesc = document.querySelector('.descActivite');
+    inputDesc.value = activity.description;
+
+    // Image
+    let inputImg = document.querySelector('.imgActivite');
+    inputImg.value = activity.image;
+
+    // Niveau
+    let selectNiveau = document.querySelector('.niveauDiff');
+    selectNiveau.value = activity.level;
+
+    // Lieu
+    let selectLieu = document.querySelector('.lieu');
+    selectLieu.value = activity.location;
+
+    // Coach
+    let selectCoach = document.querySelector('.coachDiff');
+    selectCoach.value = activity.coach;
+
+    // Jour
+    let selectJour = document.querySelector('.jourDiff');
+    selectJour.value = activity.schedule_day;
+
+}

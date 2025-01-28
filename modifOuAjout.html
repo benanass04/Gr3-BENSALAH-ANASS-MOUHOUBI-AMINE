@@ -14,28 +14,20 @@
         <header class="header">
 
             <div class="div-logo">
-                <a href="index.html">
-                    <img class="logo" src="./resources/images/logo.png">
-                </a>
+                <img class="logo" src="./resources/images/logo.png">
             </div>
 
             <nav>
-                <div>
-                    <a href="index.html">
-                        <p>MENU</p>
-                    </a>
+                <div class="menu-bouton">
+                    <p>MENU</p>
                 </div>
 
-                <div>
-                    <a href="liste.html">
-                        <p>TOUS NOS ACTIVITÉS</p>
-                    </a>
+                <div class="liste-bouton">
+                    <p>TOUS NOS ACTIVITÉS</p>
                 </div>
 
-                <div>
-                    <a href = "modifOuAjout.html">
-                        <p>AJOUTER UNE ACTIVITÉ</p>
-                    </a>
+                <div class="ajout-bouton">
+                    <p>AJOUTER UNE ACTIVITÉ</p>
                 </div>
             </nav>
 
@@ -48,34 +40,48 @@
             <div class="container">
                 <h2>Modification de l'activité</h2>
                 <form class="formulaire">
+
                     <label>Nom de l'activité :</label>
-                    <input type="text">
+                    <input class="nomActivite" type="text">
 
                     <label>Description :</label>
-                    <textarea type="text"></textarea>
+                    <textarea class="descActivite" type="text"></textarea>
 
                     <label>Image URL :</label>
-                    <input type="text">
-
-                    <label>Coach :</label>
-                    <input type="text">
-
-                    <label>Horaire :</label>
-                    <input type="text">
+                    <input class="imgActivite" type="text">
 
                     <label>Niveau :</label>
-                    <select name="niveauDiff" id="niveauDiff">
-                        <option value="Tous">Tous</option>
+                    <select class="niveauDiff" id="niveauDiff">
+                        <option value="Tous niveaux">Tous niveaux</option>
                         <option value="Debutant">Débutant</option>
                         <option value="Intermediaire">Intérmediaire</option>
                         <option value="Avance">Avancé</option>
                     </select>
                     
                     <label>Lieu :</label>
-                    <select name="lieu" id="lieu">
-                        <option value="Interieur">Intérieur</option>
-                        <option value="Exterieur">Extérieur</option>
+                    <select class="lieu" id="lieu">
+                        <option value="Intérieur">Intérieur</option>
+                        <option value="Extérieur">Extérieur</option>
                     </select>
+
+                    <label>Coach :</label>
+                    <select class="coachDiff" id="coachDiff">
+                        <option value="Martin">Martin</option>
+                        <option value="Simone">Simone</option>
+                        <option value="Pierre">Pierre</option>
+                    </select>
+
+                    <label>Jour :</label>
+                    <select class="jourDiff" id="jourDiff">
+                        <option value="Lundi">Lundi</option>
+                        <option value="Mardi">Mardi</option>
+                        <option value="Mercredi">Mercredi</option>
+                        <option value="Jeudi">Jeudi</option>
+                        <option value="Vendredi">Vendredi</option>
+                        <option value="Samedi">Samedi</option>
+                        <option value="Dimanche">Dimanche</option>
+                    </select>
+
                 </form>
 
                 <button class="enregistrer">Enregistrer</button>
@@ -108,17 +114,11 @@
 
                 <div>
                     <h4>Suivez-nous</h4>
-                    <a target = "_blank" href = "https://www.facebook.com/search/top?q=kendrick%20lamar">
-                        <img class="lien-footer" src="./resources/images/facebook.png" >
-                    </a>
-            
-                    <a target = "_blank" href = "https://www.instagram.com/champagnepapi/"> 
-                       <img class="lien-footer" src="./resources/images/instagram.png">
-                    </a>
+                    <img class="lien-footer facebook" src="./resources/images/facebook.png" >
+
+                    <img class="lien-footer instagram" src="./resources/images/instagram.png">
     
-                    <a target = "_blank" href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley "> 
-                        <img class="lien-footer" src="./resources/images/youtube.png">
-                    </a>
+                    <img class="lien-footer youtube" src="./resources/images/youtube.png">
                 </div>
 
             </div>

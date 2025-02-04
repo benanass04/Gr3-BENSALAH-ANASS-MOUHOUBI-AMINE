@@ -251,7 +251,13 @@
                             <p><?= htmlspecialchars($activite['description']); ?></p>
                             <p><strong>Horaire :</strong> <?= htmlspecialchars($activite['schedule_day']); ?></p>
                             <p><strong>Niveau :</strong> <?= htmlspecialchars($activite['level_id']); ?></p>
-                            <p><strong>Responsable :</strong> <?= htmlspecialchars($coachs[$activite['coach_id']]['name']); ?></p>
+                            <?php if($activite['coach_id'] == 1): ?>
+                                <p><strong>Responsable :</strong> Martin</p>
+                            <?php elseif($activite['coach_id'] == 2): ?>
+                                <p><strong>Responsable :</strong> Simone</p>
+                            <?php elseif($activite['coach_id'] == 3): ?>
+                                <p><strong>Responsable :</strong> Pierre</p>
+                            <?php endif ?>
                             <?php if($activite['location_id'] == 1): ?>
                                 <p><strong>Lieu :</strong> <img src="./resources/images/exterieur.png" height=25 width=25>
                             <?php else: ?>

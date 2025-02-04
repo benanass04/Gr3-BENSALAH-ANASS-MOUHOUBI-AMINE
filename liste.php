@@ -53,56 +53,49 @@
     // Trouver le nombre de jour
     $nombreJour = count($jours);
 
-    // // Pour les filtres on va utiliser les values
-    // if($_SERVER["REQUEST_METHOD"] == "POST"){
-    //     $niveauFiltre = $_POST['niveau'] ?? ''; 
-    //     $lieuFiltre = $_POST['lieu'] ?? '';
-    //     $coachFiltre = $_POST['coach'] ?? '';
-    //     $jourFiltre = $_POST['jour'] ?? '';
+    // Get les filtres selectionner
+    $niveauFiltre = $_POST['niveau'] ?? ''; 
+    $lieuFiltre = $_POST['lieu'] ?? '';
+    $coachFiltre = $_POST['coach'] ?? '';
+    $jourFiltre = $_POST['jour'] ?? '';
 
-    // }
+    // Construire la requête SQL avec les filtres
+    $sqlCommandesActivitesFiltrer = "SELECT * FROM activities";
+    // SELECT * FROM activities WHERE level_id = :level_id etc...
 
-    // Récupération des filtres depuis le formulaire
-$niveauFiltre = $_POST['niveau'] ?? ''; 
-$lieuFiltre = $_POST['lieu'] ?? '';
-$coachFiltre = $_POST['coach'] ?? '';
-$jourFiltre = $_POST['jour'] ?? '';
+    $conditions = [];
+    $params = [];
 
-// Construire la requête SQL avec les filtres
-$sqlActivites = "SELECT a.*, l.name as lieu, c.name as coach, lv.name as niveau 
-                 FROM activities a
-                 LEFT JOIN locations l ON a.location_id = l.id
-                 LEFT JOIN coaches c ON a.coach_id = c.id
-                 LEFT JOIN levels lv ON a.level_id = lv.id
-                 WHERE 1"; // WHERE 1 pour permettre d'ajouter dynamiquement des conditions
+    if(!empty($niveauFiltre)){
+        $conditions[] = "level_id = :level_id";
+        $params['level_id'] = $niveauFiltre;
+    }
+    
+    if(!empty($lieuFiltre)){
+        $conditions[] = "location_id = :location_id";
+        $params['lieu_id'] = $lieuFiltre;
+    }
+    
+    if(!empty($coachFiltre)){
+        $conditions[] = "coach_id = :coach_id";
+        $params['coach_id'] = $coachFiltre;
+    }
 
-$params = [];
+    if(!empty($jourFiltre)){
+        $conditions[] = "schedule_day = :schedule_day";
+        $params['schedule_day'] = $jourFiltre;
+    }
 
-// Appliquer les filtres seulement si des valeurs sont sélectionnées
-if (!empty($niveauFiltre)) {
-    $sqlActivites .= " AND a.level_id = :niveau";
-    $params['niveau'] = $niveauFiltre;
-}
+    // If there are conditions, append them to the query
+    if (!empty($conditions)) {
+        $sqlCommandesActivitesFiltrer .= " WHERE " . implode(" AND ", $conditions);
+    }
 
-if (!empty($lieuFiltre)) {
-    $sqlActivites .= " AND a.location_id = :lieu";
-    $params['lieu'] = $lieuFiltre;
-}
+    // Exécuter la commande
+    $stmt = $pdo->prepare($sqlCommandesActivitesFiltrer);
+    $stmt->execute($params);
+    $activites = $stmt->fetchAll();
 
-if (!empty($coachFiltre)) {
-    $sqlActivites .= " AND a.coach_id = :coach";
-    $params['coach'] = $coachFiltre;
-}
-
-if (!empty($jourFiltre)) {
-    $sqlActivites .= " AND a.schedule_day = :jour";
-    $params['jour'] = $jourFiltre;
-}
-
-// Exécuter la commande
-$stmt = $pdo->prepare($sqlActivites);
-$stmt->execute($params);
-$activites = $stmt->fetchAll();
 ?>
 
 
@@ -258,8 +251,12 @@ $activites = $stmt->fetchAll();
                             <p><?= htmlspecialchars($activite['description']); ?></p>
                             <p><strong>Horaire :</strong> <?= htmlspecialchars($activite['schedule_day']); ?></p>
                             <p><strong>Niveau :</strong> <?= htmlspecialchars($activite['level_id']); ?></p>
-                            <p><strong>Responsable :</strong> <?= htmlspecialchars($activite['coach']); ?></p>
-                            <p><strong>Lieu :</strong> <?= htmlspecialchars($activite['lieu']); ?></p>
+                            <p><strong>Responsable :</strong> <?= htmlspecialchars($coachs[$activite['coach_id']]['name']); ?></p>
+                            <?php if($activite['location_id'] == 1): ?>
+                                <p><strong>Lieu :</strong> <img src="./resources/images/exterieur.png" height=25 width=25>
+                            <?php else: ?>
+                                <p><strong>Lieu :</strong> <img src="./resources/images/interieur.png" height=25 width=25>
+                            <?php endif ?>
                         </div>
                         <a href="modifOuAjout.php?id=<?= $activite['id']; ?>">
                             <button class="modifier">Modifier l'activité</button>

@@ -28,15 +28,14 @@
                 throw new Exception("Username déjà utilisé");
             }
 
-            // // Verifier l'email
-            // $emailNettoye = filter_var($email, FILTER_SANITIZE_EMAIL);
-            // if (!filter_var($emailNettoye, FILTER_VALIDATE_EMAIL)){
-            //     throw new Exception("Adresse email invalide");
-            // }
-
             // Verifier si les deux mot de passe sont correcte
             if($motDePasse1 != $motDePasse2){
                 throw new Exception("Les mots de passe ne correspondent pas");
+            }
+
+            // Verifier si les mots de passes ont minimums 8 characteres
+            if(strlen($motDePasse1) < 8 || strlen($motDePasse2) < 8){
+                throw new Exception("Le mot de passe doit avoir minimum 8 charactères");
             }
 
             $sqlCommande = "INSERT INTO users (first_name, last_name, username, password) VALUES (:first_name, :last_name, :username, :password)";

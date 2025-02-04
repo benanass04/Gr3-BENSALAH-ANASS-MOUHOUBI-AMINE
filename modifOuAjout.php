@@ -1,6 +1,13 @@
 <?php
     require_once 'config.php';
 
+    session_start();
+
+    if(!isset($_SESSION['usager'])){
+        header("Location: login.php");
+        exit;
+    }
+
     // Vérifier si un ID est présent dans l'URL
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         $idActivite = $_GET['id'];

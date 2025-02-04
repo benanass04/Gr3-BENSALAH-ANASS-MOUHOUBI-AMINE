@@ -184,3 +184,7 @@ button:hover{
     transform: translate(0, -0.1rem);
     color: rgb(0,167,205);
 }
+
+.erreurs{
+    color: red;
+}

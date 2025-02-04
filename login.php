@@ -83,7 +83,7 @@
 
                 <?php if(!empty($msgErreur)) : ?>
 
-                    <div class="alert alert-danger"><?= htmlspecialchars($msgErreur); ?></div>
+                    <div class="erreurs"><?= htmlspecialchars($msgErreur); ?></div>
 
                 <?php endif; ?>
 

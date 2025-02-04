@@ -87,44 +87,45 @@
                 <form class="formulaire">
 
                     <label>Nom de l'activité :</label>
-                    <input class="nomActivite" type="text">
+                    <input class="nomActivite" type="text" name="name" value="<?= htmlspecialchars($activite['name']); ?>">
+
 
                     <label>Description :</label>
-                    <textarea class="descActivite" type="text"></textarea>
+                    <textarea class="descActivite" name="description"><?= htmlspecialchars($activite['description']); ?></textarea>
 
                     <label>Image URL :</label>
-                    <input class="imgActivite" type="text">
+                    <input class="imgActivite" type="text" name="image" value="<?= htmlspecialchars($activite['image']); ?>">
 
                     <label>Niveau :</label>
-                    <select class="niveauDiff" id="niveauDiff">
-                        <option value="Tous niveaux">Tous niveaux</option>
-                        <option value="Debutant">Débutant</option>
-                        <option value="Intermediaire">Intérmediaire</option>
-                        <option value="Avance">Avancé</option>
+                    <select class="niveauDiff" name="level">
+                        <option value="Tous niveaux" <?= ($activite['level_id'] == "Tous niveaux") ? "selected" : ""; ?>>Tous niveaux</option>
+                        <option value="Debutant" <?= ($activite['level_id'] == "Debutant") ? "selected" : ""; ?>>Débutant</option>
+                        <option value="Intermediaire" <?= ($activite['level_id'] == "Intermediaire") ? "selected" : ""; ?>>Intermédiaire</option>
+                        <option value="Avance" <?= ($activite['level_id'] == "Avance") ? "selected" : ""; ?>>Avancé</option>
                     </select>
                     
                     <label>Lieu :</label>
-                    <select class="lieu" id="lieu">
-                        <option value="Intérieur">Intérieur</option>
-                        <option value="Extérieur">Extérieur</option>
+                    <select class="lieu" name="location">
+                        <option value="Intérieur" <?= ($activite['location_id'] == "Intérieur") ? "selected" : ""; ?>>Intérieur</option>
+                        <option value="Extérieur" <?= ($activite['location_id'] == "Extérieur") ? "selected" : ""; ?>>Extérieur</option>
                     </select>
 
                     <label>Coach :</label>
-                    <select class="coachDiff" id="coachDiff">
-                        <option value="Martin">Martin</option>
-                        <option value="Simone">Simone</option>
-                        <option value="Pierre">Pierre</option>
+                    <select class="coachDiff" name="coach">
+                        <option value="Martin" <?= ($activite['coach_id'] == "Martin") ? "selected" : ""; ?>>Martin</option>
+                        <option value="Simone" <?= ($activite['coach_id'] == "Simone") ? "selected" : ""; ?>>Simone</option>
+                        <option value="Pierre" <?= ($activite['coach_id'] == "Pierre") ? "selected" : ""; ?>>Pierre</option>
                     </select>
 
                     <label>Jour :</label>
-                    <select class="jourDiff" id="jourDiff">
-                        <option value="Lundi">Lundi</option>
-                        <option value="Mardi">Mardi</option>
-                        <option value="Mercredi">Mercredi</option>
-                        <option value="Jeudi">Jeudi</option>
-                        <option value="Vendredi">Vendredi</option>
-                        <option value="Samedi">Samedi</option>
-                        <option value="Dimanche">Dimanche</option>
+                    <select class="jourDiff" name="schedule_day">
+                        <option value="Lundi" <?= ($activite['schedule_day'] == "Lundi") ? "selected" : ""; ?>>Lundi</option>
+                        <option value="Mardi" <?= ($activite['schedule_day'] == "Mardi") ? "selected" : ""; ?>>Mardi</option>
+                        <option value="Mercredi" <?= ($activite['schedule_day'] == "Mercredi") ? "selected" : ""; ?>>Mercredi</option>
+                        <option value="Jeudi" <?= ($activite['schedule_day'] == "Jeudi") ? "selected" : ""; ?>>Jeudi</option>
+                        <option value="Vendredi" <?= ($activite['schedule_day'] == "Vendredi") ? "selected" : ""; ?>>Vendredi</option>
+                        <option value="Samedi" <?= ($activite['schedule_day'] == "Samedi") ? "selected" : ""; ?>>Samedi</option>
+                        <option value="Dimanche" <?= ($activite['schedule_day'] == "Dimanche") ? "selected" : ""; ?>>Dimanche</option>
                     </select>
 
                 </form>

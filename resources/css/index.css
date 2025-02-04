@@ -46,7 +46,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas: "logo   nav";
     align-items: center;
 }
@@ -79,12 +79,12 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     background-color: rgba(0, 0, 0, 0.5);
     transform: translate(0, -0.1rem);
 }
-
 /* Main */
 .main{
     grid-area: main;
-    background-color: rgb(228, 253, 253)  ;
-    padding: 2.5rem;
+    background-color: linear-gradient(black 0%, rgb(245, 250, 255) 1%)  ;
+    padding-left: 2.5%;
+    padding-right: 2.5%;
 }
 
 /* Footer */

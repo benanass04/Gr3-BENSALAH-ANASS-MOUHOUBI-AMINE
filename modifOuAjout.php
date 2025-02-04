@@ -1,3 +1,35 @@
+<?php
+    require_once 'config.php';
+
+    // Vérifier si un ID est présent dans l'URL
+    if (isset($_GET['id']) && !empty($_GET['id'])) {
+        $idActivite = $_GET['id'];
+
+        // Récupérer les données de l'activité
+        $sql = "SELECT * FROM activities WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(['id' => $idActivite]);
+        $activite = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Vérifier si l'activité existe
+        if (!$activite) {
+            die("Erreur : Activité introuvable !");
+        }
+    } else {
+        // Si aucun ID, on considère que c'est une nouvelle activité
+        $activite = [
+            'name' => '',
+            'description' => '',
+            'image' => '',
+            'level_id' => '',
+            'location_id' => '',
+            'coach_id' => '',
+            'schedule_day' => ''
+        ];
+    }
+?>
+
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,7 +37,7 @@
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="./resources/css/normalize.css">
         <link rel="stylesheet" href="./resources/css/modifOuAjout.css">
-        <script src="./resources/javascript/data.js" defer></script>
+        <!-- <script src="./resources/javascript/data.js" defer></script> -->
         <title>Centre sportif DN</title>
     </head>
     <body>
@@ -19,16 +51,29 @@
 
             <nav>
                 <div class="menu-bouton">
-                    <p>MENU</p>
+                    <a href="index.php">
+                        <p>MENU</p>
+                    </a>
                 </div>
 
                 <div class="liste-bouton">
-                    <p>TOUS NOS ACTIVITÉS</p>
+                    <a href="liste.php">
+                        <p>TOUS NOS ACTIVITÉS</p>
+                    </a>
                 </div>
 
                 <div class="ajout-bouton">
-                    <p>AJOUTER UNE ACTIVITÉ</p>
+                    <a href="modifOuAjout.php">
+                        <p>AJOUTER UNE ACTIVITÉ</p>
+                    </a>
                 </div>
+
+                <div class="deconnexion-bouton">
+                    <a href="logout.php">
+                        <p>SE DÉCONNECTER</p>
+                    </a>
+                </div>
+
             </nav>
 
         </header>
@@ -114,17 +159,24 @@
 
                 <div>
                     <h4>Suivez-nous</h4>
-                    <img class="lien-footer facebook" src="./resources/images/facebook.png" >
+                    <a href="https://www.facebook.com">
+                        <img class="lien-footer facebook" src="./resources/images/facebook.png" >
+                    </a>
 
-                    <img class="lien-footer instagram" src="./resources/images/instagram.png">
-    
-                    <img class="lien-footer youtube" src="./resources/images/youtube.png">
+                    <a href="https://www.instagram.com">
+                        <img class="lien-footer instagram" src="./resources/images/instagram.png">
+                    </a>
+
+                    <a href="https://www.youtube.com">
+                        <img class="lien-footer youtube" src="./resources/images/youtube.png">
+                    </a>
+
                 </div>
 
             </div>
 
             <p>
-                © Le Centre Sportif DN, tous droits réservés.
+                &copy; Le Centre Sportif DN, tous droits réservés.
             </p>
 
         </footer>

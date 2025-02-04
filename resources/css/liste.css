@@ -46,7 +46,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas: "logo   nav";
     align-items: center;
 }
@@ -135,7 +135,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     margin-top: 0;
 }
 
-.filter div{
+.filter form{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

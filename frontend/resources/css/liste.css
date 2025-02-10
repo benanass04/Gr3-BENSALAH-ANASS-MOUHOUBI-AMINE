@@ -46,7 +46,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
 }
@@ -119,101 +119,156 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     transform: rotate(1turn);
 }
 
+
 /* ===== Ce qui se trouve dans le main ===== */
 
-/* Titre et description */
-h2{
-    margin-top: 0px;
-    font-weight: bold;
+/* Filtreur */
+.filter{
+    position: sticky;
+    top: 0;
+    background-color: rgb(228, 253, 253);
+    padding: 2.5%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.description strong{
-    color: #1B3B5F;
+.filter h3{
+    margin-top: 0;
 }
 
-/* Toutes les images des activités */
-.image-sport{
-    height: 20rem;
-    width: 20rem;
-    border-radius: 10px;
-    transition: 0.25s;
-}
-
-.image-sport:hover{
-    transform: translate(0, -0.2rem);
-    filter: brightness(50%);
-    transition: 0.25s;
-}
-
-/* Grille qui contien les 4 activités */
-.grid-container{
+.filter div{
     display: flex;
-    text-align: center;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Chaque bloc */
-.container {
-    position: relative;
-    display: block;
-}
-
-.container p {
-    font-size: x-large;
-    position: absolute;
-    top: 50%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    color: white; 
-    padding: 0.5rem;
-    opacity: 0;
-    transition: 0.25s ease-in-out; 
-    pointer-events: none; 
-}
-
-.container .image-sport:hover + p {
-    opacity: 1;
-}
-
-/* Bouton pour voir tous les activités */
-.div-bouton-plus{
+label{
+    margin-right: 1rem;
     font-weight: bold;
-    margin-top: 2rem;
-    width: 100%;
-    display: flex;
-    justify-content: center; 
 }
 
-main button{
-    font-size: 20px;
-    font-weight: bold;
+.filter button{
     background-color: rgb(0,167,205);
+    color: white;
     border: none;
-    height: 2.5em;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-radius: 10px;
-    color: aliceblue;
+    border-radius: 5px;
     transition: 0.25s ease-in-out;
 }
 
-main button:hover{
+.filter button:hover{
     background-color: white;
-    border: 0.175rem rgb(0,167,205) solid;
-    color: #5A8CA7;
-    transform: translate(0, -0.2rem);
+    color: rgb(0,167,205);
+    border: 1px solid rgb(0,167,205);
+    transform: translate(0, -0.1rem);
 }
 
-.footer > div{
+/* La liste des sports */
+.liste{
+    padding-top: 2vh;
+    padding-bottom: 2vh;
     display: flex;
-    justify-content: space-between;
-    margin-left: 5%;
-    margin-right: 5%;
+    flex-direction: column;
 }
 
-.footer > p{
-    text-align: center;
+/* Chaque bloc-sport */
+.liste > div{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    padding: 1%;
+    background-color: aliceblue;
+    border-radius: 10px;
+
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas:
+        "photo  desc"
+        "bouton desc";
+    grid-template-columns: 1fr 5fr;
+}
+
+/* Titre de chaque bloc */
+.liste > div h3{
+    margin: 0;
+    color: rgb(0, 132, 165);
+}
+
+/* Description de chaque bloc-sport */
+.liste > div div.description{
+    height: 100%;
+    grid-area: desc;
+}
+
+.liste > div div.description strong{
+    color: rgb(0, 132, 165);
+}
+
+/* Lien vers modifOuAjout.html "Modifier" */
+.liste > div a{
+    grid-area: bouton;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-self: center;
+}
+
+/* Bouton "Modifier" de chaque bloc-sport */
+.modifier{
+    padding: 5%;
+    width: 100%;
+    height: auto;
+    transition: 0.25s ease-in-out;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(0,167,205);
+    color: white;
+    transition: 0.25s ease-in-out;
+}
+
+.modifier:hover{
+    border: 1px solid rgb(0,167,205);
+    background-color: white;
+    color: rgb(0,167,205);
+    transform: translate(0, -0.1rem);
+}
+
+
+/* Bouton "Ajouter" en bas de la liste */
+.ajouter{
+    padding: 1%;
+    width: auto;
+    height: auto;
+    margin-bottom: 2rem;
+    border: none;
+    transition: 0.25s ease-in-out;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(0,167,205);
+    color: white;
+    transition: 0.25s ease-in-out;
+}
+
+.ajouter:hover{
+    border: 1px solid rgb(0,167,205);
+    background-color: white;
+    color: rgb(0,167,205);
+    transform: translate(0, -0.1rem);
+}
+
+
+/* Les images des activités */
+.image-sport{
+    grid-area: photo;
+    border-radius: 10px;
+    width: 175px;
+    height: 175px;
+    justify-self: center;
+}
+
+/* Les images de intérieur/extérieur */
+img[alt="interieur"], img[alt="exterieur"]{
+    width: 25px;
+    height: 25px;
 }
 
 /* ===== TABLETTE ===== */
@@ -249,51 +304,18 @@ main button:hover{
         width: auto;
     }
 
-    /* MAIN */
-    main .grid-container {
-        gap: 1rem;
-        justify-items: center;
-        align-items: center;
+    /* FILTRE */
+    .filter div{
+        flex-wrap: wrap;
+        row-gap: 1rem;
     }
-
-    main .container {
-        width: 100%;
-    }
-
-    main .image-sport {
-        width: 100%; 
-        height: auto; 
-    }
-
-    main .container p {
-        font-weight:lighter;
-        font-size: small;
-        width: 80%;
-        padding: 0.5rem;
-        opacity: 0;
-        transition: 0.25s ease-in-out;
-        pointer-events: none;
-        text-align: center;
-    }
+    
+    
 }
 
 /* ===== TELEPHONE ===== */
 @media screen and (max-width:600px){
-
-    /* MAIN */
-    main .grid-container{
-        flex-direction: column;
-    }
-
-    main .container{
-        width: 60vw;
-    }
-
-    main .container p{
-        font-weight: bold;
-        font-size: large;
-    }
-
+    
     /* Footer */ 
     .footer > div{
         display: flex;
@@ -305,5 +327,5 @@ main button:hover{
         align-self: center;
         text-align: center;
     }
-    
+
 }

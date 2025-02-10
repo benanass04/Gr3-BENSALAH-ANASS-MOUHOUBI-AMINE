@@ -46,7 +46,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
 }
@@ -79,12 +79,12 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     background-color: rgba(0, 0, 0, 0.5);
     transform: translate(0, -0.1rem);
 }
+
 /* Main */
 .main{
     grid-area: main;
-    background-color: linear-gradient(black 0%, rgb(245, 250, 255) 1%)  ;
-    padding-left: 2.5%;
-    padding-right: 2.5%;
+    background-color: rgb(228, 253, 253)  ;
+    padding: 2.5rem;
 }
 
 /* Footer */
@@ -122,153 +122,90 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
 
 /* ===== Ce qui se trouve dans le main ===== */
 
-/* Filtreur */
-.filter{
-    position: sticky;
-    top: 0;
-    background-color: rgb(228, 253, 253);
-    padding: 2.5%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+/* Le bloc contenant le form */
+.container{
+    background-color: white;
+    border-radius: 25px;
+    padding: 2rem;
+    width: 50vw;
+    justify-self: center;
 
-.filter h3{
-    margin-top: 0;
-}
-
-.filter form{
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    row-gap: 1rem;
 }
 
-label{
-    margin-right: 1rem;
+.containter h2{
+    margin-top: 0px;
+    text-align: center;
+}
+
+/* Le form */
+.formulaire{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    color: rgb(0,54,67);
     font-weight: bold;
 }
 
-.filter button{
+.formulaire input{
+    border: 1px solid rgb(0,54,67);
+    color: rgb(0,93,115);
+    border-radius: 5px;
+    height: 1.5rem;
+}
+
+.formulaire input:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+    color: rgb(0,167,205);
+}
+
+.formulaire textarea{
+    border: 1px solid rgb(0,54,67);
+    color: rgb(0,93,115);
+    border-radius: 5px;
+    height: 3rem;
+    max-width: 100%;
+}
+
+.formulaire textarea:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+}
+
+.formulaire select{
+    border: 1px solid rgb(0,54,67);
+    border-radius: 5px;
+    height: 1.75rem;
+    color: rgb(0,93,115);
+}
+
+.formulaire select:focus{
+    border: none;
+    outline: 2px solid rgb(0,167,205);
+}
+
+/* Bouton enregistrer */
+.enregistrer{
+    margin-top: 1rem;
+    align-self: center;
+    height: 2.5rem;
+    width: 30%;
+    border: none;
     background-color: rgb(0,167,205);
     color: white;
-    border: none;
-    border-radius: 5px;
-    transition: 0.25s ease-in-out;
-}
-
-.filter button:hover{
-    background-color: white;
-    color: rgb(0,167,205);
-    border: 1px solid rgb(0,167,205);
-    transform: translate(0, -0.1rem);
-}
-
-/* La liste des sports */
-.liste{
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Chaque bloc-sport */
-.liste > div{
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-    padding: 1%;
-    background-color: aliceblue;
     border-radius: 10px;
-
-    display: grid;
-    grid-gap: 10px;
-    grid-template-areas:
-        "photo  desc"
-        "bouton desc";
-    grid-template-columns: 1fr 5fr;
-}
-
-/* Titre de chaque bloc */
-.liste > div h3{
-    margin: 0;
-    color: rgb(0, 132, 165);
-}
-
-/* Description de chaque bloc-sport */
-.liste > div div.description{
-    height: 100%;
-    grid-area: desc;
-}
-
-.liste > div div.description strong{
-    color: rgb(0, 132, 165);
-}
-
-/* Lien vers modifOuAjout.html "Modifier" */
-.liste > div a{
-    grid-area: bouton;
-    width: 60%;
-    height: 100%;
-    display: flex;
-    justify-self: center;
-}
-
-/* Bouton "Modifier" de chaque bloc-sport */
-.modifier{
-    padding: 5%;
-    width: 100%;
-    height: auto;
-    transition: 0.25s ease-in-out;
-    border: none;
-    border-radius: 5px;
-    background-color: rgb(0,167,205);
-    color: white;
+    font-weight: bold;
     transition: 0.25s ease-in-out;
 }
 
-.modifier:hover{
-    border: 1px solid rgb(0,167,205);
+.enregistrer:hover{
     background-color: white;
-    color: rgb(0,167,205);
+    border: 2px solid rgb(0,167,205);
     transform: translate(0, -0.1rem);
-}
-
-
-/* Bouton "Ajouter" en bas de la liste */
-.ajouter{
-    padding: 1%;
-    width: auto;
-    height: auto;
-    margin-bottom: 2rem;
-    border: none;
-    transition: 0.25s ease-in-out;
-    border: none;
-    border-radius: 5px;
-    background-color: rgb(0,167,205);
-    color: white;
-    transition: 0.25s ease-in-out;
-}
-
-.ajouter:hover{
-    border: 1px solid rgb(0,167,205);
-    background-color: white;
     color: rgb(0,167,205);
-    transform: translate(0, -0.1rem);
-}
-
-
-/* Les images des activités */
-.image-sport{
-    grid-area: photo;
-    border-radius: 10px;
-    width: 175px;
-    height: 175px;
-    justify-self: center;
-}
-
-/* Les images de intérieur/extérieur */
-img[alt="interieur"], img[alt="exterieur"]{
-    width: 25px;
-    height: 25px;
 }
 
 /* ===== TABLETTE ===== */
@@ -304,18 +241,16 @@ img[alt="interieur"], img[alt="exterieur"]{
         width: auto;
     }
 
-    /* FILTRE */
-    .filter div{
-        flex-wrap: wrap;
-        row-gap: 1rem;
-    }
-    
-    
 }
 
 /* ===== TELEPHONE ===== */
 @media screen and (max-width:600px){
-    
+
+    /* Bouton "enregistrer" */
+    .enregistrer{
+        width: 100%;
+    }
+
     /* Footer */ 
     .footer > div{
         display: flex;

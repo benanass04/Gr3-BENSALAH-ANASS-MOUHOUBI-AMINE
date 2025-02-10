@@ -46,7 +46,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     padding: 1%;
 
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 60% 40%;
     grid-template-areas: "logo   nav";
     align-items: center;
 }
@@ -83,8 +83,8 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
 /* Main */
 .main{
     grid-area: main;
-    background-color: rgb(228, 253, 253);
-    padding: 2.5%;
+    background-color: rgb(228, 253, 253)  ;
+    padding: 2.5rem;
 }
 
 /* Footer */
@@ -119,93 +119,101 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
     transform: rotate(1turn);
 }
 
-
 /* ===== Ce qui se trouve dans le main ===== */
 
-/* Le bloc contenant le form */
-.container{
-    background-color: white;
-    border-radius: 25px;
-    padding: 2rem;
-    width: 50vw;
-    justify-self: center;
-
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-}
-
-.containter h2{
+/* Titre et description */
+h2{
     margin-top: 0px;
-    text-align: center;
-}
-
-/* Le form */
-.formulaire{
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-    color: rgb(0,54,67);
     font-weight: bold;
 }
 
-.formulaire input{
-    border: 1px solid rgb(0,54,67);
-    color: rgb(0,93,115);
-    border-radius: 5px;
-    height: 1.5rem;
+.description strong{
+    color: #1B3B5F;
 }
 
-.formulaire input:focus{
-    border: none;
-    outline: 2px solid rgb(0,167,205);
-    color: rgb(0,167,205);
-}
-
-.formulaire textarea{
-    border: 1px solid rgb(0,54,67);
-    color: rgb(0,93,115);
-    border-radius: 5px;
-    height: 3rem;
-    max-width: 100%;
-}
-
-.formulaire textarea:focus{
-    border: none;
-    outline: 2px solid rgb(0,167,205);
-}
-
-.formulaire select{
-    border: 1px solid rgb(0,54,67);
-    border-radius: 5px;
-    height: 1.75rem;
-    color: rgb(0,93,115);
-}
-
-.formulaire select:focus{
-    border: none;
-    outline: 2px solid rgb(0,167,205);
-}
-
-/* Bouton enregistrer */
-.enregistrer{
-    margin-top: 1rem;
-    align-self: center;
-    height: 2.5rem;
-    width: 30%;
-    border: none;
-    background-color: rgb(0,167,205);
-    color: white;
+/* Toutes les images des activités */
+.image-sport{
+    height: 20rem;
+    width: 20rem;
     border-radius: 10px;
+    transition: 0.25s;
+}
+
+.image-sport:hover{
+    transform: translate(0, -0.2rem);
+    filter: brightness(50%);
+    transition: 0.25s;
+}
+
+/* Grille qui contien les 4 activités */
+.grid-container{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Chaque bloc */
+.container {
+    position: relative;
+    display: block;
+}
+
+.container p {
+    font-size: x-large;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    color: white; 
+    padding: 0.5rem;
+    opacity: 0;
+    transition: 0.25s ease-in-out; 
+    pointer-events: none; 
+}
+
+.container .image-sport:hover + p {
+    opacity: 1;
+}
+
+/* Bouton pour voir tous les activités */
+.div-bouton-plus{
     font-weight: bold;
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+}
+
+main button{
+    font-size: 20px;
+    font-weight: bold;
+    background-color: rgb(0,167,205);
+    border: none;
+    height: 2.5em;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 10px;
+    color: aliceblue;
     transition: 0.25s ease-in-out;
 }
 
-.enregistrer:hover{
+main button:hover{
     background-color: white;
-    border: 2px solid rgb(0,167,205);
-    transform: translate(0, -0.1rem);
-    color: rgb(0,167,205);
+    border: 0.175rem rgb(0,167,205) solid;
+    color: #5A8CA7;
+    transform: translate(0, -0.2rem);
+}
+
+.footer > div{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.footer > p{
+    text-align: center;
 }
 
 /* ===== TABLETTE ===== */
@@ -223,7 +231,7 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
 
     .header nav {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
         justify-content: space-between;
     }
 
@@ -241,14 +249,49 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
         width: auto;
     }
 
+    /* MAIN */
+    main .grid-container {
+        gap: 1rem;
+        justify-items: center;
+        align-items: center;
+    }
+
+    main .container {
+        width: 100%;
+    }
+
+    main .image-sport {
+        width: 100%; 
+        height: auto; 
+    }
+
+    main .container p {
+        font-weight:lighter;
+        font-size: small;
+        width: 80%;
+        padding: 0.5rem;
+        opacity: 0;
+        transition: 0.25s ease-in-out;
+        pointer-events: none;
+        text-align: center;
+    }
 }
 
 /* ===== TELEPHONE ===== */
 @media screen and (max-width:600px){
 
-    /* Bouton "enregistrer" */
-    .enregistrer{
-        width: 100%;
+    /* MAIN */
+    main .grid-container{
+        flex-direction: column;
+    }
+
+    main .container{
+        width: 60vw;
+    }
+
+    main .container p{
+        font-weight: bold;
+        font-size: large;
     }
 
     /* Footer */ 
@@ -262,5 +305,5 @@ button:hover, .menu-bouton p, .liste-bouton p, .ajout-bouton p{
         align-self: center;
         text-align: center;
     }
-
+    
 }

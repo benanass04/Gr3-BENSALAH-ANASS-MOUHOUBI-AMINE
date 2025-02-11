@@ -1,4 +1,4 @@
-// donnÃ©es des activités
+// Les tableaux 
 let activities = [
     // {
     //     id: 1,
@@ -56,8 +56,24 @@ let activities = [
     //     location: "Intérieur",
     // },
 ];
+let popularActivities = [];
 
-document.addEventListener("DOMContentLoaded", fetchActivities);
+let locations = [];
+let coaches = [];
+let levels = [];
+
+// On va separer le code en plusieurs etapes:
+// 1st: on attend que le DOM soit loaded
+// 2nd: lorsque le DOM est loader, on verifie on est sur quelle page
+// dependament de la page, on fetches ce quon a besoin
+
+// index a besoin des 4 activites randoms (GET /api/activities/random)
+// liste a besoin des tous les activites, levels, coaches, locations (GET /api/activities/filter)
+// modifOuAjout a besoin de tous les details de un activite (GET /api/activities/$id)
+// on doit pouvoir mettre a jour une activite dans modifOuAjout (PUT /api/activities/$id)
+// on doit pouvoir ajouter une activite dans modifOuAjout (POST /api/activities)
+
+document.addEventListener("DOMContentLoaded", init);
 
 function fetchActivities(){
     let baseUrl = 'http://localhost:8000/api/activities';
@@ -71,15 +87,135 @@ function fetchActivities(){
     })
     .then(data => {
         activities = data;
-        init();
+        fetchLocations();
+
     })
     .catch(error => {
         console.error('Erreur:', error);
     })
 }
 
-function renderActivities(){
+function fetchPopularActivities(){
+    let baseUrl = 'http://localhost:8000/api/activities/random';
+
+    fetch(baseUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des activitées populaires');
+        }
+        return response.json();
+    })
+    .then(data => {
+        popularActivities = data;
+        displayPopularActivities();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+
 }
+
+function fetchLocations(){
+    let baseUrl = 'http://localhost:8000/api/locations';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des locations');
+        }
+        return response.json();
+    })
+    .then(data => {
+        locations = data;
+        fetchCoach();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchCoach(){
+    let baseUrl = 'http://localhost:8000/api/coaches';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des entraîneurs');
+        }
+        return response.json();
+    })
+    .then(data => {
+        coaches = data;
+        fetchLevels();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchLevels(){
+    let baseUrl = 'http://localhost:8000/api/levels';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des niveaux');
+        }
+        return response.json();
+    })
+    .then(data => {
+        levels = data;
+        populateFilters();
+        //Mettre par defaut (afficher tous les activites once)
+        displayAllActivities();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchFiltredActivities(filtres) {
+    // Vérifier si filtres est bien un tableau
+    if (!Array.isArray(filtres) || filtres.length < 3) {
+        console.error("Erreur : filtres doit être un tableau avec 3 valeurs.");
+        return;
+    }
+
+
+
+    // Transformer le tableau en objet clé-valeur
+    const filtresObj = {
+        level: filtres[0],      // "Expert"
+        location: filtres[1],   // "Extérieur"
+        coach: filtres[2]       // "Martin"
+    };
+
+    if (!filtresObj.location) delete filtresObj.location;
+    if (!filtresObj.coach) delete filtresObj.coach;
+
+    // Construire la query string correctement
+    const params = new URLSearchParams(filtresObj).toString();
+    console.log(filtresObj);
+    let baseUrl = `http://localhost:8000/api/activities/filter?${params}`;
+
+    console.log("Requête envoyée à :", baseUrl);
+
+    fetch(baseUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des activités filtrées');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Données reçues :", data);
+        displayFilteredActivities(data);
+    })
+    .catch(error => {
+        console.error("Erreur :", error);
+    });
+}
+
 
 function init() {
     const pageLink = window.location.pathname;
@@ -89,7 +225,7 @@ function init() {
     const logo = document.querySelector('.div-logo');
     logo.addEventListener("click", () => {
         window.location.href = 'index.html';
-    })
+    });
     
     const boutonMenu = document.querySelector('.menu-bouton');
     boutonMenu.addEventListener("click", () => {
@@ -109,18 +245,18 @@ function init() {
     // Liens footer (externe)
     const insta = document.querySelector('.instagram');
     insta.addEventListener("click", () => {
-        window.open("https://instagram.com/champagnepapi/", "_blank");
-    })
+        window.open("https://instagram.com", "_blank");
+    });
 
     const facebook = document.querySelector('.facebook');
     facebook.addEventListener("click", () => {
         window.open("https://facebook.com", "_blank");
-    })
+    });
     
     const youtube = document.querySelector('.youtube');
     youtube.addEventListener("click", () => {
         window.open("https://youtube.com", "_blank");
-    })
+    });
 
     // Pour l'index
     if (pageLink.endsWith("index.html")) {
@@ -130,7 +266,8 @@ function init() {
             window.location.href = 'liste.html';
         });
 
-        displayPopularActivities();
+        fetchPopularActivities();
+
     }
 
     // Pour la liste
@@ -141,27 +278,15 @@ function init() {
             window.location.href = 'modifOuAjout.html';
         })
 
-        populateFilters();
+        fetchActivities();
 
-        //Mettre par defaut (tous)
-        const filtresTous = sauvegardeFiltre();
-        displayFilteredActivities(filtresTous);
+        // const filtresTous = sauvegardeFiltre();
+        // displayFilteredActivities(filtresTous);
 
-        // Lorsque le bouton appliquer est cliquer, il va afficher la liste des activites filtrers
-        const btnApply = document.getElementById("appliquerFiltres");
-        btnApply.addEventListener("click", () => {
-            const filtresChoisis = sauvegardeFiltre();
-            displayFilteredActivities(filtresChoisis);
-        });
-
-        // Lorsque le bouton modifier est cliquer, il va envoyer les informations dans modifOuAjout.html (ex: modifOuAjout.html?id=5)
-        // trouver l'id de l'activite cliquer
     }
 
     // Pour modifOuAjout
     else if (queryLink.includes("?")){
-        console.log("test");
-
         const params = new URLSearchParams(window.location.search);
         const activiteID = parseInt(params.get("id"));
 
@@ -180,31 +305,30 @@ function init() {
         } else {
             console.error("Activité non trouvée !");
         }
-
-        populateForm(activite);
     }
 }
 
-// // Sauvegarder les choix des filtres
-// function sauvegardeFiltre(){
-//     const filtres = {};
+// Sauvegarder les choix des filtres
+function sauvegardeFiltre(){
+    let filtres = {};
 
-//     filtres.niveau = document.querySelector('.niveauDiff').value;
-//     filtres.lieu = document.querySelector('.lieuDiff').value;
-//     filtres.coach = document.querySelector('.coachDiff').value;
-//     filtres.jour = document.querySelector('.jourDiff').value;
+    filtres.niveau = document.querySelector('.niveauDiff').value;
+    filtres.lieu = document.querySelector('.lieuDiff').value;
+    filtres.coach = document.querySelector('.coachDiff').value;
 
-//     const tabFiltre = [filtres.niveau, filtres.lieu, filtres.coach, filtres.jour];
+    console.log(filtres.lieu);
 
-//     console.log(tabFiltre);
+    if (filtres.lieu == "Tous"){
+        delete filtres.lieu;
+    }
+    if (filtres.coach == "Tous"){
+        delete filtres.coach;
+    }
 
-//     return tabFiltre;
-// }
+    const tabFiltre = [filtres.niveau, filtres.lieu, filtres.coach];
 
-// // Retourne l'id de l'activite ou le bouton modifier a ete cliquer
-// function retourneID(){
-    
-// }
+    return tabFiltre;
+}
 
 // affiche les activités populaires pour la page d'accueil
 function displayPopularActivities() {
@@ -218,41 +342,86 @@ function displayPopularActivities() {
         div.classList.add("container");
         tableauDiv.push(div);
         grosContaineur.append(div);
-        // console.log(tableauDiv);
+        console.log(tableauDiv);
     }
 
     // Remplir les divs
     for(let i = 0; i < tableauDiv.length; i++){
         let image = document.createElement('img');
         image.classList.add("image-sport");
-        image.setAttribute('src', activities[i].image)
+        image.setAttribute('src', popularActivities[i].image);
         
         let p = document.createElement('p');
-        p.textContent = activities[i].description;
+        p.textContent = popularActivities[i].description;
 
         tableauDiv[i].append(image);
         tableauDiv[i].append(p);
     }
 }
 
+// Afficher tous les activites 
+function displayAllActivities(){
+
+    displayFilteredActivities(null);
+}
+
 // gestion des filtres pour la page des activités
 function populateFilters() {
 
     let filterContainer = document.querySelector('.blockFilter');
-    let nomDesLabels = ["Niveau: ", "Lieu: ", "Entraineur: ", "Jour: "];
-    let nomDesFiltres = ["niveauDiff", "lieuDiff", "coachDiff", "jourDiff"];
+    let nomDesLabels = ["Niveau: ", "Lieu: ", "Entraineur: "];
+    let nomDesFiltres = ["niveauDiff", "lieuDiff", "coachDiff"];
 
-    let filtreNiveau = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"];
-    let filtreLieu = ["Tous", "Intérieur", "Extérieur"];
-    let filtreCoach = ["Tous", "Martin", "Simone", "Pierre"];
-    let filtreJour = ["Tous", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+    // Créer les filtres
+    let filtreNiveau = [];
+    let filtreLieu = [];
+    let filtreCoach = [];
 
-    let tousLesFiltres = [filtreNiveau, filtreLieu, filtreCoach, filtreJour];
+    // Filtre pour tous (sauf pour level)
+    const TOUS = "Tous";
+
+    // Remplir les filtres
+    for(let i = 0; i < activities.length ; i++){
+        // level_id
+        unNiveau = activities[i].level_id;
+        console.log("Niveau "+unNiveau);
+        console.log(levels[unNiveau-1]);
+        if(!filtreNiveau.includes(levels[unNiveau-1].name)){
+            filtreNiveau.push(levels[unNiveau-1].name);
+        }
+
+        // location_id
+        unLieu = activities[i].location_id;
+        console.log("Location "+unLieu);
+        console.log(locations[unLieu-1]);
+        if(!filtreLieu.includes(locations[unLieu-1].name)){
+            filtreLieu.push(locations[unLieu-1].name);
+        }
+        
+
+        // coach_id
+        unCoach = activities[i].coach_id;
+        console.log("Coach"+unCoach);
+        console.log(coaches[unCoach-1]);
+        if(!filtreCoach.includes(coaches[unCoach-1].name)){
+            filtreCoach.push(coaches[unCoach-1].name);
+        }
+    }
+
+    filtreLieu.push(TOUS);
+    filtreCoach.push(TOUS);
+    
+
+    // let filtreNiveau = ["Tous niveaux", "Débutant", "Intermédiaire", "Avancé"];
+    // let filtreLieu = ["Intérieur", "Extérieur"];
+    // let filtreCoach = ["Martin", "Simone", "Pierre"];
+
+    let tousLesFiltres = [filtreNiveau, filtreLieu, filtreCoach];
 
     
     // Creer les divs (4)
     let tableauFiltre = [];
-    for(let i = 0; i < 4; i++){
+    for(let i = 0; i < tousLesFiltres.length; i++){
         let filtreDiv = document.createElement('div');
         filtreDiv.classList.add("filtre");
         tableauFiltre.push(filtreDiv);
@@ -287,113 +456,132 @@ function populateFilters() {
     btnApply.id = "appliquerFiltres";
     filterContainer.append(btnApply);
 
+    btnApply.addEventListener("click", () => {
+        console.log(" Bouton Appliquer cliqué !");
+        const filtresChoisis = sauvegardeFiltre();
+        console.log(filtresChoisis);
+        fetchFiltredActivities(filtresChoisis);
+        // displayFilteredActivities(filtresChoisis);
+    });
+
+
 }
 
-// // affiche toutes les activités filtrées pour la page des activités (tableau de 4 elements)
-// function displayFilteredActivities(filters) {
-//     // ordre [niveau, lieu, coach, jour]
-//     const activiteFiltrer = activities.filter(activite => {
-//         return (
-//             (filters[0] === "Tous niveaux" || activite.level === filters[0]) &&     // Niveau
-//             (filters[1] === "Tous" || activite.location === filters[1]) &&          // Lieu
-//             (filters[2] === "Tous" || activite.coach === filters[2]) &&             // Coach
-//             (filters[3] === "Tous" || activite.schedule_day === filters[3])         // Jour
-//         );
-//     });
+// affiche toutes les activités filtrées pour la page des activités (tableau de 4 elements)
+function displayFilteredActivities(listeDesActivitesFiltrer) {
+    // ordre [niveau, lieu, coach]
 
-//     console.log(activiteFiltrer);
+    if (listeDesActivitesFiltrer == null){
 
-//     let grosContaineur = document.querySelector('.liste');
+        listeDesActivitesFiltrer = activities;
+        console.log('tous');
 
-//     // Reset la liste avant
-//     grosContaineur.innerHTML = "";
+    }
+    // else{
 
-//     // Creer les divs
-//     let tableauSport = [];
-//     for(let i = 0; i < activiteFiltrer.length; i++){
-//         let sportDiv = document.createElement('div');
-//         tableauSport.push(sportDiv);
-//         grosContaineur.append(sportDiv);
-//     }
+    //     listeDesActivitesFiltrer = activities.filter(activite => {
+    //         return (
+    //             (activite.level_id === filters[0]) &&               // Niveau
+    //             (activite.location_id === filters[1]) &&            // Lieu
+    //             (activite.coach_id === filters[2])                  // Coach
+    //         );
+    //     });
 
-//     // Remplir les divs
-//     for(let i = 0; i < tableauSport.length; i++){
-//         // Image
-//         let image = document.createElement('img');
-//         image.classList.add("image-sport");
-//         image.setAttribute('src', activiteFiltrer[i].image);
-//         tableauSport[i].append(image);
+    // }
 
-//         // Div.description
-//         let grosDiv = document.createElement('div');
-//         grosDiv.classList.add("description");
-//         tableauSport[i].append(grosDiv);
+    let grosContaineur = document.querySelector('.liste');
 
+    // Reset la liste avant
+    grosContaineur.innerHTML = "";
+
+    // Creer les divs
+    let tableauSport = [];
+    for(let i = 0; i < listeDesActivitesFiltrer.length; i++){
+        let sportDiv = document.createElement('div');
+        tableauSport.push(sportDiv);
+        grosContaineur.append(sportDiv);
+    }
+
+    // Remplir les divs
+    for(let i = 0; i < tableauSport.length; i++){
+        // Image
+        let image = document.createElement('img');
+        image.classList.add("image-sport");
+        image.setAttribute('src', listeDesActivitesFiltrer[i].image);
+        tableauSport[i].append(image);
+
+        // Div.description
+        let grosDiv = document.createElement('div');
+        grosDiv.classList.add("description");
+        tableauSport[i].append(grosDiv);
         
-//         // Titre
-//         let titre = document.createElement('h3');
-//         titre.textContent = activiteFiltrer[i].name;
-//         grosDiv.append(titre);
+        // Titre
+        let titre = document.createElement('h3');
+        titre.textContent = listeDesActivitesFiltrer[i].name;
+        grosDiv.append(titre);
 
-//         // Description
-//         let desc = document.createElement('p');
-//         desc.textContent = activiteFiltrer[i].description;
-//         grosDiv.append(desc);
+        // Description
+        let desc = document.createElement('p');
+        desc.textContent = listeDesActivitesFiltrer[i].description;
+        grosDiv.append(desc);
 
-//         // Paragraphe du jour
-//         let titreJour = document.createElement('strong');
-//         titreJour.textContent = "Horaire: ";
-//         let descJour = document.createTextNode(activiteFiltrer[i].schedule_day);
-//         let pJour = document.createElement('p');
-//         pJour.append(titreJour);
-//         pJour.append(descJour);
-//         grosDiv.append(pJour);
+        // Paragraphe du jour
+        let titreJour = document.createElement('strong');
+        titreJour.textContent = "Horaire: ";
+        let descJour = document.createTextNode(listeDesActivitesFiltrer[i].schedule_day);
+        let pJour = document.createElement('p');
+        pJour.append(titreJour);
+        pJour.append(descJour);
+        grosDiv.append(pJour);
 
-//         // Paragraphe du niveau
-//         let titreNiveau = document.createElement('strong');
-//         titreNiveau.textContent = "Niveau: ";
-//         let descNiveau = document.createTextNode(activiteFiltrer[i].level);
-//         let pNiveau = document.createElement('p');
-//         pNiveau.append(titreNiveau);
-//         pNiveau.append(descNiveau);
-//         grosDiv.append(pNiveau);
+        // Paragraphe du niveau
+        let titreNiveau = document.createElement('strong');
+        titreNiveau.textContent = "Niveau: ";
+        // Le id des levels est (listeDesActivitesFiltrer[i].level_id-1)
+        let descNiveau = document.createTextNode(levels[listeDesActivitesFiltrer[i].level_id-1].name);
+        let pNiveau = document.createElement('p');
+        pNiveau.append(titreNiveau);
+        pNiveau.append(descNiveau);
+        grosDiv.append(pNiveau);
 
-//         // Paragraphe du coach
-//         let titreCoach = document.createElement('strong');
-//         titreCoach.textContent = "Responsable: ";
-//         let descCoach = document.createTextNode(activiteFiltrer[i].coach);
-//         let pCoach = document.createElement('p');
-//         pCoach.append(titreCoach);
-//         pCoach.append(descCoach);
-//         grosDiv.append(pCoach);
+        // Paragraphe du coach
+        let titreCoach = document.createElement('strong');
+        titreCoach.textContent = "Responsable: ";
+        // Le id des coaches est (listeDesActivitesFiltrer[i].coach_id-1)
+        let descCoach = document.createTextNode(coaches[listeDesActivitesFiltrer[i].coach_id-1].name);
+        let pCoach = document.createElement('p');
+        pCoach.append(titreCoach);
+        pCoach.append(descCoach);
+        grosDiv.append(pCoach);
 
-//         // Paragraphe du lieu
-//         let titreLieu = document.createElement('strong');
-//         titreLieu.textContent = "Lieu: ";
-//         let descLieu = document.createTextNode(activiteFiltrer[i].location);
-//         let pLieu = document.createElement('p');
-//         pLieu.append(titreLieu);
-//         pLieu.append(descLieu);
-//         grosDiv.append(pLieu);
+        // Paragraphe du lieu
+        let titreLieu = document.createElement('strong');
+        titreLieu.textContent = "Lieu: ";
+        // Le id des locations est (listeDesActivitesFiltrer[i].location_id-1)
+        let descLieu = document.createTextNode(locations[listeDesActivitesFiltrer[i].location_id-1].name);
+        let pLieu = document.createElement('p');
+        pLieu.append(titreLieu);
+        pLieu.append(descLieu);
+        grosDiv.append(pLieu);
 
-//         // Bouton modifier
-//         let boutonModifer = document.createElement('button');
-//         boutonModifer.classList.add("modifier");
-//         boutonModifer.textContent = "Modifier l'activité";
+        // Bouton modifier
+        let boutonModifer = document.createElement('button');
+        boutonModifer.classList.add("modifier");
+        boutonModifer.textContent = "Modifier l'activité";
 
-//         boutonModifer.setAttribute('data-id', activiteFiltrer[i].id);
+        boutonModifer.setAttribute('data-id', listeDesActivitesFiltrer[i].id);
 
-//         // Lorsque cliquer
-//         boutonModifer.addEventListener('click', () => {
-//             const activiteID = boutonModifer.getAttribute('data-id');
+        // Lorsque cliquer
+        boutonModifer.addEventListener('click', () => {
+            const activiteID = boutonModifer.getAttribute('data-id');
 
-//             window.location.href = 'modifOuAjout.html?id='+activiteID;
-//         })
+            window.location.href = 'modifOuAjout.html?id='+activiteID;
+        })
 
-//         tableauSport[i].append(boutonModifer);
-//     }
+        tableauSport[i].append(boutonModifer);
+    }
 
-// }
+}
 
 // // Remplir le formulaire de modifOuAjout
 // function populateForm(activity) {

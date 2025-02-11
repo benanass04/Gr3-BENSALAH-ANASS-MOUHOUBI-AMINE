@@ -26,7 +26,7 @@ CREATE TABLE `activities` (
   `name` varchar(100) NOT NULL,
   `description` text NOT NULL,
   `image` varchar(255) NOT NULL,
-  `level_id` varchar(50) NOT NULL,
+  `level_id` int(11) NOT NULL,
   `coach_id` int(11) NOT NULL,
   `schedule_day` varchar(20) NOT NULL,
   `schedule_time` varchar(20) NOT NULL,

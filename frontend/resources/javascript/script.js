@@ -69,9 +69,9 @@ let levels = [];
 
 // index a besoin des 4 activites randoms (GET /api/activities/random)
 // liste a besoin des tous les activites, levels, coaches, locations (GET /api/activities/filter)
-// modifOuAjout a besoin de tous les details de un activite (GET /api/activities/$id)
-// on doit pouvoir mettre a jour une activite dans modifOuAjout (PUT /api/activities/$id)
-// on doit pouvoir ajouter une activite dans modifOuAjout (POST /api/activities)
+// modifier a besoin de tous les details de un activite (GET /api/activities/$id)
+// on doit pouvoir mettre a jour une activite dans modifier (PUT /api/activities/$id)
+// on doit pouvoir ajouter une activite dans modifier (POST /api/activities)
 
 document.addEventListener("DOMContentLoaded", init);
 
@@ -87,6 +87,7 @@ function fetchActivities(){
     })
     .then(data => {
         activities = data;
+        console.log(activities);
         fetchLocations();
 
     })
@@ -115,64 +116,48 @@ function fetchPopularActivities(){
 
 }
 
-function fetchLocations(){
+function fetchLocations() {
     let baseUrl = 'http://localhost:8000/api/locations';
 
-    fetch(baseUrl)
-    .then(response => {
-        if(!response.ok){
-            throw new Error('Erreur lors de la récupération des locations');
-        }
-        return response.json();
-    })
-    .then(data => {
-        locations = data;
-        fetchCoach();
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    })
+    return fetch(baseUrl)
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur lors de la récupération des locations');
+            return response.json();
+        })
+        .then(data => {
+            locations = data;
+            console.log("Locations chargées :", locations);
+        });
 }
 
-function fetchCoach(){
+function fetchCoach() {
     let baseUrl = 'http://localhost:8000/api/coaches';
 
-    fetch(baseUrl)
-    .then(response => {
-        if(!response.ok){
-            throw new Error('Erreur lors de la récupération des entraîneurs');
-        }
-        return response.json();
-    })
-    .then(data => {
-        coaches = data;
-        fetchLevels();
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    })
+    return fetch(baseUrl)
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur lors de la récupération des entraîneurs');
+            return response.json();
+        })
+        .then(data => {
+            coaches = data;
+            console.log("Coaches chargés :", coaches);
+        });
 }
 
-function fetchLevels(){
+function fetchLevels() {
     let baseUrl = 'http://localhost:8000/api/levels';
 
-    fetch(baseUrl)
-    .then(response => {
-        if(!response.ok){
-            throw new Error('Erreur lors de la récupération des niveaux');
-        }
-        return response.json();
-    })
-    .then(data => {
-        levels = data;
-        populateFilters();
-        //Mettre par defaut (afficher tous les activites once)
-        displayAllActivities();
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    })
+    return fetch(baseUrl)
+        .then(response => {
+            if (!response.ok) throw new Error('Erreur lors de la récupération des niveaux');
+            return response.json();
+        })
+        .then(data => {
+            levels = data;
+            console.log("Niveaux chargés :", levels);
+        });
 }
+
 
 function fetchFiltredActivities(filtres) {
     // Vérifier si filtres est bien un tableau
@@ -216,6 +201,50 @@ function fetchFiltredActivities(filtres) {
     });
 }
 
+function fetchInfo(id) {
+    let baseUrl = `http://localhost:8000/api/activities/${id}`;
+
+    console.log(`Requête envoyée à : ${baseUrl}`);
+
+    fetch(baseUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la récupération des informations');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Données reçues :", data);
+
+            if (!data || data.length === 0) {
+                console.error("Activité non trouvée !");
+                return;
+            }
+
+            populateForm(data[0]); // Remplir le formulaire avec les données reçues
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+        });
+}
+
+function fetchAllData() {
+    return new Promise((resolve, reject) => {
+        fetchLocations()
+            .then(fetchCoach)
+            .then(fetchLevels)
+            .then(() => {
+                console.log("Toutes les données sont chargées !");
+                resolve();
+            })
+            .catch(error => {
+                console.error("Erreur lors du chargement des données :", error);
+                reject(error);
+            });
+    });
+}
+
+
 
 function init() {
     const pageLink = window.location.pathname;
@@ -239,7 +268,7 @@ function init() {
 
     const boutonAjout = document.querySelector('.ajout-bouton');
     boutonAjout.addEventListener("click", () => {
-        window.location.href = 'modifOuAjout.html';
+        window.location.href = 'modifier.html';
     });
 
     // Liens footer (externe)
@@ -275,7 +304,7 @@ function init() {
         // Liens
         const boutonAjouterActivite = document.querySelector('.ajouter');
         boutonAjouterActivite.addEventListener("click", () => {
-            window.location.href = 'modifOuAjout.html';
+            window.location.href = 'modifier.html';
         })
 
         fetchActivities();
@@ -285,26 +314,15 @@ function init() {
 
     }
 
-    // Pour modifOuAjout
+    // Pour modifier
     else if (queryLink.includes("?")){
         const params = new URLSearchParams(window.location.search);
         const activiteID = parseInt(params.get("id"));
 
-        let activite;
-
-        // Trouver l'activite
-        for(let i = 0; i < activities.length; i++){
-            if(activities[i].id === activiteID){
-                activite = activities[i];
-                break;
-            }
-        }
-        
-        if (activite) {
-            populateForm(activite);
-        } else {
-            console.error("Activité non trouvée !");
-        }
+        fetchAllData().then(() => {
+            fetchInfo(activiteID);
+        });
+    
     }
 }
 
@@ -575,7 +593,7 @@ function displayFilteredActivities(listeDesActivitesFiltrer) {
         boutonModifer.addEventListener('click', () => {
             const activiteID = boutonModifer.getAttribute('data-id');
 
-            window.location.href = 'modifOuAjout.html?id='+activiteID;
+            window.location.href = 'modifier.html?id='+activiteID;
         })
 
         tableauSport[i].append(boutonModifer);
@@ -583,34 +601,78 @@ function displayFilteredActivities(listeDesActivitesFiltrer) {
 
 }
 
-// // Remplir le formulaire de modifOuAjout
-// function populateForm(activity) {
-//     // Titre
-//     let inputNom = document.querySelector('.nomActivite');
-//     inputNom.value = activity.name;
+// Remplir le formulaire de modifier
+function populateForm(activity) {
 
-//     // Desc
-//     let inputDesc = document.querySelector('.descActivite');
-//     inputDesc.value = activity.description;
+    grosContaineur = document.querySelector('.container');
 
-//     // Image
-//     let inputImg = document.querySelector('.imgActivite');
-//     inputImg.value = activity.image;
+    // Titre
+    let inputNom = document.querySelector('.nomActivite');
+    inputNom.value = activity.name;
+    console.log(activity.name);
 
-//     // Niveau
-//     let selectNiveau = document.querySelector('.niveauDiff');
-//     selectNiveau.value = activity.level;
+    // Desc
+    let inputDesc = document.querySelector('.descActivite');
+    inputDesc.value = activity.description;
 
-//     // Lieu
-//     let selectLieu = document.querySelector('.lieu');
-//     selectLieu.value = activity.location;
+    // Image
+    let inputImg = document.querySelector('.imgActivite');
+    inputImg.value = activity.image;
 
-//     // Coach
-//     let selectCoach = document.querySelector('.coachDiff');
-//     selectCoach.value = activity.coach;
+    // Niveau
+    let selectNiveau = document.querySelector('.niveauDiff');
+    selectNiveau.value = levels[activity.level_id-1].name;
 
-//     // Jour
-//     let selectJour = document.querySelector('.jourDiff');
-//     selectJour.value = activity.schedule_day;
+    // Lieu
+    let selectLieu = document.querySelector('.lieu');
+    selectLieu.value = locations[activity.location_id-1].name;
 
-// }
+    // Coach
+    let selectCoach = document.querySelector('.coachDiff');
+    selectCoach.value = coaches[activity.coach_id-1].name;
+
+    // Créer le bouton 
+    let boutonEnregistrer = document.createElement('button');
+    boutonEnregistrer.classList.add("enregistrer");
+    boutonEnregistrer.textContent = "Enregistrer";
+    grosContaineur.append(boutonEnregistrer);
+
+    boutonEnregistrer.addEventListener('click', () => {
+        updateActivity(activity.id);
+    })
+}
+
+function updateActivity(activityId) {
+    let nouvelleActivity = {
+        name: document.querySelector('.nomActivite').value,
+        description: document.querySelector('.descActivite').value,
+        image: document.querySelector('.imgActivite').value,
+        level_id: levels.find(l => l.name === document.querySelector('.niveauDiff').value).id,
+        location_id: locations.find(loc => loc.name === document.querySelector('.lieu').value).id,
+        coach_id: coaches.find(coach => coach.name === document.querySelector('.coachDiff').value).id
+    };
+
+    console.log("Nouvelle activité mise à jour:", nouvelleActivity);
+
+    // Envoyer une requête PUT pour mettre à jour l'activité
+    fetch(`http://localhost:8000/api/activities/${activityId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erreur lors de la mise à jour de l'activité");
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Mise à jour réussie :", data);
+        alert("L'activité a été mise à jour avec succès !");
+    })
+    .catch(error => {
+        console.error("Erreur :", error);
+        alert("Erreur lors de la mise à jour !");
+    });
+}

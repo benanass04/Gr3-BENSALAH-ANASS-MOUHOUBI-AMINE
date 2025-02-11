@@ -5,6 +5,19 @@
     require 'config.php';
     require './src/controllers/ActivitiesController.php';
 
+    // Vérifier si le paramètre n'est pas "filter" avant d'interpréter comme un ID
+    get('/api/activities/$param', function($param){
+        if ($param === "filter") {
+            ActivitiesController::getFiltredActivities($_GET);
+        } else {
+            ActivitiesController::getInfoActivity($param);
+        }
+    });
+
+    put('/api/activities/$id', function($id){
+        ActivitiesController::updateActivity($id);
+    });
+
     //Pour retourner tous les activites (GET /api/activities)
     get('/api/activities', function(){
        ActivitiesController::getAllActivities();
@@ -30,10 +43,7 @@
         ActivitiesController::getNiveaux();
     });
 
-    // Pour retourner les activites filtrers (GET /api/activities/filter?coach=1&level=3&location=1)
-    get('/api/activities/filter', function(){
-        ActivitiesController::getFiltredActivities($_GET);
-    });
+    
 
     // route par défaut pour les erreurs 404
     any('/404', function() {

@@ -6,7 +6,7 @@ let levels = [];
 let filteredActivities = [];
 
 let msgErreur = document.querySelector('.erreur');
-// msgErreur.style.display = "none";
+
 
 const pageLink = window.location.pathname;
 const queryLink = window.location.search;
@@ -472,12 +472,11 @@ function modifyActivity(id) {
 
     // Pour le systeme d'erreur
     
-    // msgErreur.textContent = "";
+    msgErreur.textContent = "";
     let erreur = false;
 
     if (!(inputNom.value) || !(inputDesc.value) || !(inputImg.value) || !(inputHeure)){
         msgErreur.textContent = "Veuillez remplir tous les entrées";
-        // msgErreur.style.display = "block";
         erreur = true;
     }
 
@@ -508,11 +507,12 @@ function modifyActivity(id) {
         })
         .then(data => {
             console.log("yes bruv");
-            msgErreur.style.display = "none";
+            msgErreur.textContent = "";
             retourIndex(); // Redirection après succès
         })
         .catch(error => {
             console.error("Erreur:", error);
+            msgErreur.textContent = error;
         });
     }
     
@@ -537,7 +537,6 @@ function createActivity() {
 
     if (!(inputNom.value) || !(inputDesc.value) || !(inputImg.value) || !(inputHeure)){
         msgErreur.textContent = "Veuillez remplir tous les entrées";
-        msgErreur.style.display = "block";
         erreur = true;
     }
 
@@ -569,13 +568,12 @@ function createActivity() {
         })
         .then(data => {
             console.log("yes bruv");
-            msgErreur.style.display = "none";
+            msgErreur.textContent = "";
             retourIndex(); // Redirection après succès
         })
         .catch(error => {
             console.error("Erreur:", error);
             msgErreur.textContent = error;
-            msgErreur.style.display = "block";
         });
     }
 

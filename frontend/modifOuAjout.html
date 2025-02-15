@@ -38,7 +38,10 @@
         <main class="main">
 
             <div class="container">
-                <h2>Modification de l'activité</h2>
+                <h2 class="titre"></h2>
+
+                <div class="erreur"></div>
+
                 <form class="formulaire">
 
                     <label>Nom de l'activité :</label>
@@ -52,14 +55,14 @@
 
                     <label>Niveau :</label>
                     <select class="niveauDiff" id="niveauDiff">
-                        <option value="Tous niveaux">Tous niveaux</option>
-                        <option value="Debutant">Débutant</option>
-                        <option value="Intermediaire">Intérmediaire</option>
-                        <option value="Avance">Avancé</option>
+                        <option value="Tous les niveaux">Tous les niveaux</option>
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Expert">Expert</option>
                     </select>
                     
                     <label>Lieu :</label>
-                    <select class="lieu" id="lieu">
+                    <select class="lieuDiff" id="lieuDiff">
                         <option value="Intérieur">Intérieur</option>
                         <option value="Extérieur">Extérieur</option>
                     </select>
@@ -82,9 +85,12 @@
                         <option value="Dimanche">Dimanche</option>
                     </select>
 
+                    <label>Heure :</label>
+                    <input type="text" class="heureActivite">
+
                 </form>
 
-                <button class="enregistrer">Enregistrer</button>
+                <button class="enregistrer"></button>
             </div>
 
         </main>

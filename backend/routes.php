@@ -30,6 +30,16 @@
         ActivitiesController::getNiveaux();
     });
 
+    // Pour modifier les activites (PUT /api/activities/${id})
+    put('/api/activities/$id', function($id){
+        ActivitiesController::modifyActivity($id);
+    });
+
+    // Pour creer une activite
+    post('/api/activities', function(){
+        ActivitiesController::addActivity();
+    });
+
     // Pour retourner les activites filtrers (GET /api/activities/filter?coach=1&level=3&location=1)
     get('/api/activities/filter', function(){
         ActivitiesController::getFiltredActivities($_GET);

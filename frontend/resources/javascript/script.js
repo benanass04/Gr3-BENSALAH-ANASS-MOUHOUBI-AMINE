@@ -3,19 +3,166 @@ let popularActivities = [];
 let locations = [];
 let coaches = [];
 let levels = [];
-let filteredActivities = [];
 
-let msgErreur = document.querySelector('.erreur');
-// msgErreur.style.display = "none";
+// On va separer le code en plusieurs etapes:
+// 1st: on attend que le DOM soit loaded
+// 2nd: lorsque le DOM est loader, on verifie on est sur quelle page
+// dependament de la page, on fetches ce quon a besoin
 
-const pageLink = window.location.pathname;
-const queryLink = window.location.search;
-// Filtre pour tous (sauf pour level)
-const TOUS = "Tous";
+// index a besoin des 4 activites randoms (GET /api/activities/random)
+// liste a besoin des tous les activites, levels, coaches, locations (GET /api/activities/filter)
+// modifOuAjout a besoin de tous les details de un activite (GET /api/activities/$id)
+// on doit pouvoir mettre a jour une activite dans modifOuAjout (PUT /api/activities/$id)
+// on doit pouvoir ajouter une activite dans modifOuAjout (POST /api/activities)
 
 document.addEventListener("DOMContentLoaded", init);
 
-function init(){
+function fetchActivities(){
+    let baseUrl = 'http://localhost:8000/api/activities';
+
+    fetch(baseUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des activitées');
+        }
+        return response.json();
+    })
+    .then(data => {
+        activities = data;
+        fetchLocations();
+
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchPopularActivities(){
+    let baseUrl = 'http://localhost:8000/api/activities/random';
+
+    fetch(baseUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des activitées populaires');
+        }
+        return response.json();
+    })
+    .then(data => {
+        popularActivities = data;
+        displayPopularActivities();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+
+}
+
+function fetchLocations(){
+    let baseUrl = 'http://localhost:8000/api/locations';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des locations');
+        }
+        return response.json();
+    })
+    .then(data => {
+        locations = data;
+        fetchCoach();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchCoach(){
+    let baseUrl = 'http://localhost:8000/api/coaches';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des entraîneurs');
+        }
+        return response.json();
+    })
+    .then(data => {
+        coaches = data;
+        fetchLevels();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchLevels(){
+    let baseUrl = 'http://localhost:8000/api/levels';
+
+    fetch(baseUrl)
+    .then(response => {
+        if(!response.ok){
+            throw new Error('Erreur lors de la récupération des niveaux');
+        }
+        return response.json();
+    })
+    .then(data => {
+        levels = data;
+        populateFilters();
+        //Mettre par defaut (afficher tous les activites once)
+        displayAllActivities();
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+    })
+}
+
+function fetchFiltredActivities(filtres) {
+    // Vérifier si filtres est bien un tableau
+    if (!Array.isArray(filtres) || filtres.length < 3) {
+        console.error("Erreur : filtres doit être un tableau avec 3 valeurs.");
+        return;
+    }
+
+
+
+    // Transformer le tableau en objet clé-valeur
+    const filtresObj = {
+        level: filtres[0],      // "Expert"
+        location: filtres[1],   // "Extérieur"
+        coach: filtres[2]       // "Martin"
+    };
+
+    if (!filtresObj.location) delete filtresObj.location;
+    if (!filtresObj.coach) delete filtresObj.coach;
+
+    // Construire la query string correctement
+    const params = new URLSearchParams(filtresObj).toString();
+    console.log(filtresObj);
+    let baseUrl = `http://localhost:8000/api/activities/filter?${params}`;
+
+    console.log("Requête envoyée à :", baseUrl);
+
+    fetch(baseUrl)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des activités filtrées');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Données reçues :", data);
+        displayFilteredActivities(data);
+    })
+    .catch(error => {
+        console.error("Erreur :", error);
+    });
+}
+
+
+function init() {
+    const pageLink = window.location.pathname;
+    const queryLink = window.location.search;
+
     // Liens header
     const logo = document.querySelector('.div-logo');
     logo.addEventListener("click", () => {
@@ -34,7 +181,7 @@ function init(){
 
     const boutonAjout = document.querySelector('.ajout-bouton');
     boutonAjout.addEventListener("click", () => {
-        window.location.href = 'modifOuAjout.html';
+        window.location.href = 'modifier.html';
     });
 
     
@@ -55,82 +202,76 @@ function init(){
         window.open("https://youtube.com", "_blank");
     });
 
-    fetchAll();
+    // Pour l'index
+    if (pageLink.endsWith("index.html")) {
+        //Liens       
+        const boutonTousNosActivites = document.querySelector('.bouton-plus');
+        boutonTousNosActivites.addEventListener("click", () => {
+            window.location.href = 'liste.html';
+        });
+
+        fetchPopularActivities();
+
+    }
+
+    // Pour la liste
+    else if (pageLink.endsWith("liste.html")){
+        // Liens
+        const boutonAjouterActivite = document.querySelector('.ajouter');
+        boutonAjouterActivite.addEventListener("click", () => {
+            window.location.href = 'modifOuAjout.html';
+        })
+
+        fetchActivities();
+
+        // const filtresTous = sauvegardeFiltre();
+        // displayFilteredActivities(filtresTous);
+
+    }
+
+    // Pour modifOuAjout
+    else if (queryLink.includes("?")){
+        const params = new URLSearchParams(window.location.search);
+        const activiteID = parseInt(params.get("id"));
+
+        let activite;
+
+        // Trouver l'activite
+        for(let i = 0; i < activities.length; i++){
+            if(activities[i].id === activiteID){
+                activite = activities[i];
+                break;
+            }
+        }
+        
+        if (activite) {
+            populateForm(activite);
+        } else {
+            console.error("Activité non trouvée !");
+        }
+    }
 }
 
-// On fetch tous les donnees du sql avec ca
-function fetchAll() {
-    let baseUrl = 'http://localhost:8000/api';
+// Sauvegarder les choix des filtres
+function sauvegardeFiltre(){
+    let filtres = {};
 
-    fetch(`${baseUrl}/activities`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des activités');
-        }
-        return response.json();
-    })
-    .then(data => {
-        activities = data;
-        return fetch(`${baseUrl}/activities/random`);
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des activités populaires');
-        }
-        return response.json();
-    })
-    .then(data => {
-        popularActivities = data;
-        return fetch(`${baseUrl}/locations`);
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des locations');
-        }
-        return response.json();
-    })
-    .then(data => {
-        locations = data;
-        return fetch(`${baseUrl}/coaches`);
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des entraîneurs');
-        }
-        return response.json();
-    })
-    .then(data => {
-        coaches = data;
-        return fetch(`${baseUrl}/levels`);
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des niveaux');
-        }
-        return response.json();
-    })
-    .then(data => {
-        levels = data;
-        if (pageLink.includes("index.html")){
-            displayPopularActivities();
-        }
-        if(pageLink.includes("liste.html")){
-            // Bouton ajout dans liste.html
-            const boutonNouvelActi = document.querySelector('.ajouter');
-            boutonNouvelActi.addEventListener("click", () => {
-                window.location.href = 'modifOuAjout.html';
-            });
-            populateFilters();
-            displayAllActivities();
-        }
-        if(pageLink.includes("modifOuAjout.html")){
-            console.log("oui");
-            modifOuAjout();
-        }
-    })
-    .catch(error => {
-        console.error('Erreur:', error);
-    });
+    filtres.niveau = document.querySelector('.niveauDiff').value;
+    filtres.lieu = document.querySelector('.lieuDiff').value;
+    filtres.coach = document.querySelector('.coachDiff').value;
+
+    console.log(filtres.lieu);
+
+    if (filtres.lieu == "Tous"){
+        delete filtres.lieu;
+    }
+    if (filtres.coach == "Tous"){
+        delete filtres.coach;
+    }
+
+    const tabFiltre = [filtres.niveau, filtres.lieu, filtres.coach];
+
+    return tabFiltre;
 }
 
 // Afficher les activites populaires
@@ -391,7 +532,7 @@ function displayFilteredActivities(listeDesActivitesFiltrer){
         boutonModifer.addEventListener('click', () => {
             const activiteID = boutonModifer.getAttribute('data-id');
 
-            window.location.href = 'modifOuAjout.html?id='+activiteID;
+            window.location.href = 'modifier.html?id='+activiteID;
         })
 
         tableauSport[i].append(boutonModifer);
@@ -400,189 +541,34 @@ function displayFilteredActivities(listeDesActivitesFiltrer){
 
 }
 
-function modifOuAjout(){
-    let titre = document.querySelector(".titre");
-    let bouton = document.querySelector(".enregistrer");
+// // Remplir le formulaire de modifOuAjout
+// function populateForm(activity) {
+//     // Titre
+//     let inputNom = document.querySelector('.nomActivite');
+//     inputNom.value = activity.name;
 
-    if (queryLink.includes("?")){
-        titre.textContent = "Modifier une activité";
-        bouton.textContent = "Modifier";
-        
-        const params = new URLSearchParams(window.location.search);
-        const activiteID = params.get("id");
-        displayActivity(activiteID);
-        bouton.addEventListener("click", ()=> modifyActivity(activiteID));
-    }
-    else{
-        titre.textContent = "Créer une activité";
-        bouton.textContent = "Enregistrer";
-        bouton.addEventListener("click", ()=> createActivity());
-    }
-}
-
-// Pour afficher les informations de l'activite
-function displayActivity(id){
-    let activity = activities[id-1];
-    console.log(activity);
-
-    // Titre
-    let inputNom = document.querySelector('.nomActivite');
-    inputNom.value = activity.name;
-
-    // Desc
-    let inputDesc = document.querySelector('.descActivite');
-    inputDesc.value = activity.description;
+//     // Desc
+//     let inputDesc = document.querySelector('.descActivite');
+//     inputDesc.value = activity.description;
 
     // Image
     let inputImg = document.querySelector('.imgActivite');
     inputImg.value = activity.image;
 
-    // Niveau
-    let selectNiveau = document.querySelector('.niveauDiff');
-    selectNiveau.value = (levels[activity.level_id-1]).name;
+//     // Niveau
+//     let selectNiveau = document.querySelector('.niveauDiff');
+//     selectNiveau.value = activity.level;
 
-    // Lieu
-    let selectLieu = document.querySelector('.lieuDiff');
-    selectLieu.value = (locations[activity.location_id-1].name);
+//     // Lieu
+//     let selectLieu = document.querySelector('.lieu');
+//     selectLieu.value = activity.location;
 
-    // Coach
-    let selectCoach = document.querySelector('.coachDiff');
-    selectCoach.value = (coaches[activity.coach_id-1].name);
+//     // Coach
+//     let selectCoach = document.querySelector('.coachDiff');
+//     selectCoach.value = activity.coach;
 
-    // Jour
-    let selectJour = document.querySelector('.jourDiff');
-    selectJour.value = activity.schedule_day;
+//     // Jour
+//     let selectJour = document.querySelector('.jourDiff');
+//     selectJour.value = activity.schedule_day;
 
-    // Heure
-    let inputHeure = document.querySelector('.heureActivite');
-    inputHeure.value = activity.schedule_time;
-}
-
-// PUT = modifier
-function modifyActivity(id) {
-    // Prendre les valeurs entree
-    let inputNom = document.querySelector('.nomActivite');
-    let inputDesc = document.querySelector('.descActivite');
-    let inputImg = document.querySelector('.imgActivite');
-    let inputHeure = document.querySelector('.heureActivite');
-    let selectNiveau = document.querySelector('.niveauDiff');
-    let selectLieu = document.querySelector('.lieuDiff');
-    let selectCoach = document.querySelector('.coachDiff');
-    let selectJour = document.querySelector('.jourDiff');
-
-    // Pour le systeme d'erreur
-    
-    // msgErreur.textContent = "";
-    let erreur = false;
-
-    if (!(inputNom.value) || !(inputDesc.value) || !(inputImg.value) || !(inputHeure)){
-        msgErreur.textContent = "Veuillez remplir tous les entrées";
-        // msgErreur.style.display = "block";
-        erreur = true;
-    }
-
-    if (!erreur){
-        let activityInfo = {
-            name: inputNom.value,
-            description: inputDesc.value,
-            image: inputImg.value,
-            level_id: levels.find(level => level.name === selectNiveau.value).id,
-            coach_id: coaches.find(coach => coach.name === selectCoach.value).id,
-            schedule_day: selectJour.value,
-            schedule_time: inputHeure.value,
-            location_id: locations.find(location => location.name === selectLieu.value).id
-        };
-    
-        let baseUrl = `http://localhost:8000/api/activities/${id}`;
-    
-        fetch(baseUrl, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(activityInfo)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des activités');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("yes bruv");
-            msgErreur.style.display = "none";
-            retourIndex(); // Redirection après succès
-        })
-        .catch(error => {
-            console.error("Erreur:", error);
-        });
-    }
-    
-}
-
-
-// POST = creer
-function createActivity() {
-    // Prendre les valeurs entree
-    let inputNom = document.querySelector('.nomActivite');
-    let inputDesc = document.querySelector('.descActivite');
-    let inputImg = document.querySelector('.imgActivite');
-    let inputHeure = document.querySelector('.heureActivite');
-    let selectNiveau = document.querySelector('.niveauDiff');
-    let selectLieu = document.querySelector('.lieuDiff');
-    let selectCoach = document.querySelector('.coachDiff');
-    let selectJour = document.querySelector('.jourDiff');
-
-    // Pour le systeme d'erreur
-    msgErreur.textContent = "";
-    let erreur = false;
-
-    if (!(inputNom.value) || !(inputDesc.value) || !(inputImg.value) || !(inputHeure)){
-        msgErreur.textContent = "Veuillez remplir tous les entrées";
-        msgErreur.style.display = "block";
-        erreur = true;
-    }
-
-    if(!erreur){
-        console.log(levels.find(level => level.name === selectNiveau.value));
-        let activityInfo = {
-            name: inputNom.value,
-            description: inputDesc.value,
-            image: inputImg.value,
-            level_id: levels.find(level => level.name === selectNiveau.value).id,
-            coach_id: coaches.find(coach => coach.name === selectCoach.value).id,
-            schedule_day: selectJour.value,
-            schedule_time: inputHeure.value,
-            location_id: locations.find(location => location.name === selectLieu.value).id
-        };
-    
-        let baseUrl = "http://localhost:8000/api/activities";
-    
-        fetch(baseUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(activityInfo)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des activités');
-            }
-            return response.json()
-        })
-        .then(data => {
-            console.log("yes bruv");
-            msgErreur.style.display = "none";
-            retourIndex(); // Redirection après succès
-        })
-        .catch(error => {
-            console.error("Erreur:", error);
-            msgErreur.textContent = error;
-            msgErreur.style.display = "block";
-        });
-    }
-
-    
-}
-
-
-function retourIndex(){
-    window.location.href = 'index.html';
-}
+// }

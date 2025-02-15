@@ -40,7 +40,10 @@
         ActivitiesController::addActivity();
     });
 
-    
+    // Pour retourner les activites filtrers (GET /api/activities/filter?coach=1&level=3&location=1)
+    get('/api/activities/filter', function(){
+        ActivitiesController::getFiltredActivities($_GET);
+    });
 
     // route par défaut pour les erreurs 404
     any('/404', function() {
